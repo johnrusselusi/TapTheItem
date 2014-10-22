@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5359B9AF-1CFC-4A55-84DE-596EF51E5321</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TapTheItem</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>FAD878F2-C89C-4612-845E-2D1041A6AB83</key>
+		<string>https://github.com/johnrusselusi/TapTheItem.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TapTheItem/TapTheItem.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>FAD878F2-C89C-4612-845E-2D1041A6AB83</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/johnrusselusi/TapTheItem.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>FAD878F2-C89C-4612-845E-2D1041A6AB83</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FAD878F2-C89C-4612-845E-2D1041A6AB83</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TapTheItem</string>
+		</dict>
+	</array>
+</dict>
+</plist>
