@@ -10,4 +10,6 @@
 
 @interface ItemViewController : UIViewController
 
+@property (retain, nonatomic) NSMutableArray *availableItems;
+
 @end

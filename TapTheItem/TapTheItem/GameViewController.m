@@ -9,10 +9,9 @@
 #import "GameViewController.h"
 #import "ItemView.h"
 #import "ItemViewController.h"
+#import "RequiredItemViewController.h"
 
 @interface GameViewController ()
-
-@property (retain, nonatomic) NSMutableArray *availableItems;
 
 @end
 
@@ -20,9 +19,16 @@
 
 - (void)viewDidLoad{
  
+    [super viewDidLoad];
+    
     ItemViewController *itemView = [[ItemViewController alloc]init];
+    RequiredItemViewController *requiredItem = [[RequiredItemViewController alloc]init];
     
     [self.view addSubview:itemView.view];
+    
+    requiredItem.selectionItems = [[NSMutableArray alloc]initWithArray:itemView.availableItems];
+    
+    [self.view addSubview:requiredItem.view];
 }
 
 @end
