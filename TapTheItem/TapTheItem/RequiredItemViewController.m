@@ -6,44 +6,32 @@
 //  Copyright (c) 2014 Klab Cyscorpions Training Center. All rights reserved.
 //
 
-#import "RequireItemViewController.h"
+#import "RequiredItemViewController.h"
+#import "RequiredItemView.h"
+#import "ItemViewController.h"
+#import "ItemView.h"
 
-@interface RequireItemViewController ()
+@interface RequiredItemViewController ()
+
+@property (retain, nonatomic) RequiredItemView *selectedItem;
 
 @end
 
-@implementation RequireItemViewController
+@implementation RequiredItemViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self setView:[self generateRequiredItemFromSelectionItems:self.selectionItems]];
+    NSLog(@"%d", self.selectedItem.itemIdentifier);
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (RequiredItemView *)generateRequiredItemFromSelectionItems:(NSArray *)selectionItems{
+
+    int randomIndex = arc4random_uniform((uint32_t)[selectionItems count]);
+    
+    self.selectedItem = [[RequiredItemView alloc]initWithItemView:[selectionItems objectAtIndex:randomIndex]];
+    
+    return self.selectedItem;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

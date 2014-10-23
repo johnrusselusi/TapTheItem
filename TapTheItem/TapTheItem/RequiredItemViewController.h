@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RequireItemViewController : UIViewController
+@interface RequiredItemViewController : UIViewController
+
+@property (retain, nonatomic) NSMutableArray *selectionItems;
 
 @end

@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ItemView;
 
 @interface RequiredItemView : UIImageView
+
+@property (nonatomic) int itemIdentifier;
+
+- (instancetype)initWithItemView:(ItemView *)itemView;
 
 @end

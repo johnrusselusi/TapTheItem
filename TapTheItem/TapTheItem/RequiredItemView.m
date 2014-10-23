@@ -7,25 +7,30 @@
 //
 
 #import "RequiredItemView.h"
+#import "ItemView.h"
+
+CGPoint const REQUIRED_ITEMVIEW_ORIGIN = {20, 115};
+
+float const REQUIRED_ITEMVIEW_WIDTH = 90;
+float const REQUIRED_ITEMVIEW_HEIGHT = 90;
 
 @implementation RequiredItemView
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+- (instancetype)initWithItemView:(ItemView *)itemView{
+
+    self = [super init];
+    
     if (self) {
-        // Initialization code
+        CGRect frame = CGRectMake(REQUIRED_ITEMVIEW_ORIGIN.x,
+                                  REQUIRED_ITEMVIEW_ORIGIN.y,
+                                   REQUIRED_ITEMVIEW_WIDTH,
+                                  REQUIRED_ITEMVIEW_HEIGHT);
+        
+        self.frame = frame;
+        self.itemIdentifier = itemView.itemIdentifier;
+        self.image = itemView.image;
+        self.userInteractionEnabled = YES;
     }
     return self;
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
-
 @end

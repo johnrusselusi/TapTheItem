@@ -10,5 +10,6 @@
 
 @interface ItemView : UIImageView
 
+@property (nonatomic) int itemIdentifier;
 
 @end

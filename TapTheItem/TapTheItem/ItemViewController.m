@@ -6,27 +6,27 @@
 //  Copyright (c) 2014 Klab Cyscorpions Training Center. All rights reserved.
 //
 
+#import "RequiredItemView.h"
 #import "ItemViewController.h"
 #import "ItemView.h"
 
-CGPoint const FIRST_ITEMVIEW = {20, 62};
-CGPoint const SECOND_ITEMVIEW = {88, 62};
-CGPoint const THIRD_ITEMVIEW = {156, 62};
-CGPoint const FOURTH_ITEMVIEW = {20, 130};
-CGPoint const FIFTH_ITEMVIEW = {88, 130};
-CGPoint const SIXTH_ITEMVIEW = {156, 130};
-CGPoint const SEVENTH_ITEMVIEW = {20, 198};
-CGPoint const EIGHT_ITEMVIEW = {88, 198};
-CGPoint const NINTH_ITEMVIEW = {156, 198};
+CGPoint const FIRST_ITEMVIEW = {200, 34};
+CGPoint const SECOND_ITEMVIEW = {292, 34};
+CGPoint const THIRD_ITEMVIEW = {380, 34};
+CGPoint const FOURTH_ITEMVIEW = {200, 125};
+CGPoint const FIFTH_ITEMVIEW = {292, 125};
+CGPoint const SIXTH_ITEMVIEW = {380, 125};
+CGPoint const SEVENTH_ITEMVIEW = {200, 220};
+CGPoint const EIGHT_ITEMVIEW = {292, 220};
+CGPoint const NINTH_ITEMVIEW = {380, 220};
 
-float const ITEMVIEW_WIDTH = 60;
-float const ITEMVIEW_HEIGHT = 60;
+float const ITEMVIEW_WIDTH = 80;
+float const ITEMVIEW_HEIGHT = 80;
 
 @interface ItemViewController ()
 
 @property (retain, nonatomic) NSArray *itemsName;
 @property (nonatomic) NSMutableArray *itemsSelection;
-@property (retain, nonatomic) NSMutableArray *availableItems;
 @property (retain, nonatomic) ItemView *itemView;
 
 @end
@@ -45,8 +45,6 @@ float const ITEMVIEW_HEIGHT = 60;
                                                           options:kNilOptions
                                                             error:nil];
     
-    NSLog(@"%@", self.itemsName);
-    
     self.itemsSelection = [NSMutableArray arrayWithArray:self.itemsName];
     
     for (int i = 0; i < 9; i++) {
@@ -56,6 +54,7 @@ float const ITEMVIEW_HEIGHT = 60;
     for (ItemView *items in self.availableItems) {
         
         [self.view addSubview:items];
+        NSLog(@"%d", items.itemIdentifier);
     }
 }
 
@@ -70,6 +69,7 @@ float const ITEMVIEW_HEIGHT = 60;
     [self.itemsSelection removeObjectAtIndex:randomIndex];
     
     if (count == 0) {
+        
         frame = CGRectMake(FIRST_ITEMVIEW.x, FIRST_ITEMVIEW.y, ITEMVIEW_WIDTH, ITEMVIEW_HEIGHT);
     } else if (count == 1) {
     
@@ -98,9 +98,20 @@ float const ITEMVIEW_HEIGHT = 60;
     }
     
     ItemView *itemView = [[ItemView alloc]initWithFrame:frame];
+    
+    itemView.itemIdentifier = count;
     itemView.image = image;
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(itemViewTapped:)];
+    
+    [itemView addGestureRecognizer:tapGestureRecognizer];
     
     return itemView;
 }
 
+- (void)itemViewTapped:(UITapGestureRecognizer *)gr{
+    
+    NSLog(@"You tapped %d", self.itemView.itemIdentifier);
+}
+                                                
 @end
