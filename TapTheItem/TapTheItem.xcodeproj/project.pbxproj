@@ -474,6 +474,7 @@
 				1928134519F7A10200704CA9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1928134619F7A10200704CA9 /* Build configuration list for PBXNativeTarget "TapTheItemTests" */ = {
 			isa = XCConfigurationList;
@@ -482,6 +483,7 @@
 				1928134819F7A10200704CA9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

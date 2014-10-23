@@ -1,13 +1,13 @@
 [
-  {"filename" : "cake"},
-  {"filename" : "cookie"},
-  {"filename" : "donuts"},
-  {"filename" : "cupcake"},
-  {"filename" : "noodles"},
-  {"filename" : "french_fries"},
-  {"filename" : "hamburger"},
-  {"filename" : "hot_dog"},
-  {"filename" : "milkshake_chocolate"},
-  {"filename" : "muffin"},
-  {"filename" : "pizza_slice"}
+  "cake",
+  "cookie",
+  "donuts",
+  "cupcake",
+  "noodles",
+  "french_fries",
+  "hamburger",
+  "hot_dog",
+  "milkshake_chocolate",
+  "muffin",
+  "pizza_slice"
 ]

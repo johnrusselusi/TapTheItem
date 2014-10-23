@@ -18,9 +18,8 @@
     // Override point for customization after application launch.
     
     ViewController *viewController = [[ViewController alloc]init];
-    ItemViewController *item = [[ItemViewController alloc]init];
     
-    self.window.rootViewController = item;
+    self.window.rootViewController = viewController;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

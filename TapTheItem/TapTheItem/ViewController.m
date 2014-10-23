@@ -12,12 +12,14 @@
 
 @interface ViewController ()
 
+@property (retain, nonatomic) NSMutableArray *availableItems;
+
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad{
-
+ 
     ItemViewController *itemView = [[ItemViewController alloc]init];
     
     [self.view addSubview:itemView.view];

@@ -8,30 +8,18 @@
 
 #import "ItemView.h"
 
-float const IMAGEVIEW_X_AXIS = 0.0;
-float const IMAGEVIEW_Y_AXIS = 0.0;
-float const IMAGEVIEW_WIDTH = 60.0;
-float const IMAGEVIEW_HEIGHT = 60.0;
-
 @implementation ItemView
 
-- (instancetype)initWithImage:(UIImage *)image{
+- (instancetype)initWithFrame:(CGRect)frame{
+
+    self = [super initWithFrame:frame];
     
-    self = [super initWithImage:image];
     if (self) {
         
-        CGRect frame = CGRectMake(IMAGEVIEW_X_AXIS,
-                                  IMAGEVIEW_Y_AXIS,
-                                  IMAGEVIEW_WIDTH,
-                                  IMAGEVIEW_HEIGHT);
-        
-        
-        self.frame = frame;
-        self.userInteractionEnabled = YES;
+        [self setUserInteractionEnabled:YES];
     }
     
     return self;
 }
-
 
 @end
