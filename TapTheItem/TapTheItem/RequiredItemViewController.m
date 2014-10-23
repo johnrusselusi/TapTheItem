@@ -13,8 +13,6 @@
 
 @interface RequiredItemViewController ()
 
-@property (retain, nonatomic) RequiredItemView *selectedItem;
-
 @end
 
 @implementation RequiredItemViewController

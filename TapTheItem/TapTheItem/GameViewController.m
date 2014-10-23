@@ -8,10 +8,14 @@
 
 #import "GameViewController.h"
 #import "ItemView.h"
+#import "RequiredItemView.h"
 #import "ItemViewController.h"
 #import "RequiredItemViewController.h"
 
-@interface GameViewController ()
+@interface GameViewController () <ItemViewControllerDelegate>
+
+@property (retain, nonatomic) ItemViewController *itemView;
+@property (retain, nonatomic) RequiredItemViewController *requiredItem;
 
 @end
 
@@ -20,15 +24,40 @@
 - (void)viewDidLoad{
  
     [super viewDidLoad];
+    [self startALevel];
+}
+
+- (void)startALevel{
     
-    ItemViewController *itemView = [[ItemViewController alloc]init];
-    RequiredItemViewController *requiredItem = [[RequiredItemViewController alloc]init];
+    self.itemView = [[ItemViewController alloc]init];
+    self.requiredItem = [[RequiredItemViewController alloc]init];
     
-    [self.view addSubview:itemView.view];
+    self.itemView.delegate = self;
     
-    requiredItem.selectionItems = [[NSMutableArray alloc]initWithArray:itemView.availableItems];
+    [self.view addSubview:self.itemView.view];
     
-    [self.view addSubview:requiredItem.view];
+    self.requiredItem.selectionItems = [[NSMutableArray alloc]initWithArray:self.itemView.availableItems];
+    
+    [self.view addSubview:self.requiredItem.view];
+}
+
+- (void)didSelectAnItem:(ItemView *)selectedItem{
+
+    self.playerSelectedItem = selectedItem;
+    [self compareSelectedItemAndRequiredItem:self.playerSelectedItem
+                                requiredItem:self.requiredItem.selectedItem];
+}
+
+- (void)compareSelectedItemAndRequiredItem:(ItemView *)selectedItem
+                              requiredItem:(RequiredItemView *)requiredItem{
+
+    if (selectedItem.itemIdentifier == requiredItem.itemIdentifier) {
+        NSLog(@"Correct");
+        [self startALevel];
+    } else {
+    
+        NSLog(@"Wrong");
+    }
 }
 
 @end

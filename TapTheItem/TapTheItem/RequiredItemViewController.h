@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class RequiredItemView;
 
 @interface RequiredItemViewController : UIViewController
 
 @property (retain, nonatomic) NSMutableArray *selectionItems;
+@property (retain, nonatomic) RequiredItemView *selectedItem;
 
 @end

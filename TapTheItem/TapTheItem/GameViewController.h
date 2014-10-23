@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ItemView;
 
 @interface GameViewController : UIViewController
+
+@property (retain, nonatomic) ItemView *playerSelectedItem;
 
 @end
