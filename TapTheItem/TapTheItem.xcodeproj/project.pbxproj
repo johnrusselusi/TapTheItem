@@ -19,6 +19,11 @@
 		1928133619F7A10100704CA9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1928131E19F7A10100704CA9 /* UIKit.framework */; };
 		1928133E19F7A10200704CA9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1928133C19F7A10100704CA9 /* InfoPlist.strings */; };
 		1928134019F7A10200704CA9 /* TapTheItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1928133F19F7A10200704CA9 /* TapTheItemTests.m */; };
+		1928134B19F7A24200704CA9 /* ItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1928134A19F7A24200704CA9 /* ItemView.m */; };
+		1928134D19F7A45300704CA9 /* items.json in Resources */ = {isa = PBXBuildFile; fileRef = 1928134C19F7A45300704CA9 /* items.json */; };
+		1928135119F7A48000704CA9 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1928134F19F7A48000704CA9 /* ItemViewController.m */; };
+		1928135219F7A48000704CA9 /* ItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1928135019F7A48000704CA9 /* ItemViewController.xib */; };
+		1928135519F7A5F000704CA9 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1928135419F7A5F000704CA9 /* GameViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +53,14 @@
 		1928133B19F7A10100704CA9 /* TapTheItemTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TapTheItemTests-Info.plist"; sourceTree = "<group>"; };
 		1928133D19F7A10100704CA9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1928133F19F7A10200704CA9 /* TapTheItemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapTheItemTests.m; sourceTree = "<group>"; };
+		1928134919F7A24200704CA9 /* ItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemView.h; sourceTree = "<group>"; };
+		1928134A19F7A24200704CA9 /* ItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemView.m; sourceTree = "<group>"; };
+		1928134C19F7A45300704CA9 /* items.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = items.json; sourceTree = "<group>"; };
+		1928134E19F7A48000704CA9 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
+		1928134F19F7A48000704CA9 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
+		1928135019F7A48000704CA9 /* ItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemViewController.xib; sourceTree = "<group>"; };
+		1928135319F7A5F000704CA9 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		1928135419F7A5F000704CA9 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +122,13 @@
 			children = (
 				1928132919F7A10100704CA9 /* AppDelegate.h */,
 				1928132A19F7A10100704CA9 /* AppDelegate.m */,
+				1928134919F7A24200704CA9 /* ItemView.h */,
+				1928134A19F7A24200704CA9 /* ItemView.m */,
+				1928134E19F7A48000704CA9 /* ItemViewController.h */,
+				1928134F19F7A48000704CA9 /* ItemViewController.m */,
+				1928135319F7A5F000704CA9 /* GameViewController.h */,
+				1928135419F7A5F000704CA9 /* GameViewController.m */,
+				1928135019F7A48000704CA9 /* ItemViewController.xib */,
 				1928132C19F7A10100704CA9 /* Images.xcassets */,
 				1928132119F7A10100704CA9 /* Supporting Files */,
 			);
@@ -118,6 +138,7 @@
 		1928132119F7A10100704CA9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1928134C19F7A45300704CA9 /* items.json */,
 				1928132219F7A10100704CA9 /* TapTheItem-Info.plist */,
 				1928132319F7A10100704CA9 /* InfoPlist.strings */,
 				1928132619F7A10100704CA9 /* main.m */,
@@ -191,6 +212,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Klab Cyscorpions Training Center";
 				TargetAttributes = {
+					1928131619F7A10100704CA9 = {
+						DevelopmentTeam = 59636WNZ2S;
+					};
 					1928133119F7A10100704CA9 = {
 						TestTargetID = 1928131619F7A10100704CA9;
 					};
@@ -220,7 +244,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1928132519F7A10100704CA9 /* InfoPlist.strings in Resources */,
+				1928135219F7A48000704CA9 /* ItemViewController.xib in Resources */,
 				1928132D19F7A10100704CA9 /* Images.xcassets in Resources */,
+				1928134D19F7A45300704CA9 /* items.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,8 +265,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1928134B19F7A24200704CA9 /* ItemView.m in Sources */,
+				1928135119F7A48000704CA9 /* ItemViewController.m in Sources */,
 				1928132B19F7A10100704CA9 /* AppDelegate.m in Sources */,
 				1928132719F7A10100704CA9 /* main.m in Sources */,
+				1928135519F7A5F000704CA9 /* GameViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +318,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -298,7 +327,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Taro Noguchi (5299G93T6Z)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Taro Noguchi (5299G93T6Z)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -327,7 +357,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -336,7 +366,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Taro Noguchi (5299G93T6Z)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Taro Noguchi (5299G93T6Z)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -357,10 +388,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapTheItem/TapTheItem-Prefix.pch";
 				INFOPLIST_FILE = "TapTheItem/TapTheItem-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -370,10 +404,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TapTheItem/TapTheItem-Prefix.pch";
 				INFOPLIST_FILE = "TapTheItem/TapTheItem-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -437,6 +474,7 @@
 				1928134519F7A10200704CA9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1928134619F7A10200704CA9 /* Build configuration list for PBXNativeTarget "TapTheItemTests" */ = {
 			isa = XCConfigurationList;
@@ -445,6 +483,7 @@
 				1928134819F7A10200704CA9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
