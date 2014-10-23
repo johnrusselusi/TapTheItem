@@ -6,17 +6,17 @@
 //  Copyright (c) 2014 Klab Cyscorpions Training Center. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "GameViewController.h"
 #import "ItemView.h"
 #import "ItemViewController.h"
 
-@interface ViewController ()
+@interface GameViewController ()
 
 @property (retain, nonatomic) NSMutableArray *availableItems;
 
 @end
 
-@implementation ViewController
+@implementation GameViewController
 
 - (void)viewDidLoad{
  

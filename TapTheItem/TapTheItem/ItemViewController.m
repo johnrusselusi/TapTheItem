@@ -45,6 +45,8 @@ float const ITEMVIEW_HEIGHT = 60;
                                                           options:kNilOptions
                                                             error:nil];
     
+    NSLog(@"%@", self.itemsName);
+    
     self.itemsSelection = [NSMutableArray arrayWithArray:self.itemsName];
     
     for (int i = 0; i < 9; i++) {
@@ -99,7 +101,6 @@ float const ITEMVIEW_HEIGHT = 60;
     itemView.image = image;
     
     return itemView;
-    
 }
 
 @end
