@@ -24,6 +24,13 @@
     NSLog(@"%d", self.selectedItem.itemIdentifier);
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+
+    [super viewWillDisappear:animated];
+    
+    self.selectedItem.image = [UIImage imageNamed:@""];
+}
+
 - (RequiredItemView *)generateRequiredItemFromSelectionItems:(NSArray *)selectionItems{
 
     int randomIndex = arc4random_uniform((uint32_t)[selectionItems count]);

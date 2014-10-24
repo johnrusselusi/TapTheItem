@@ -57,6 +57,16 @@ float const ITEMVIEW_HEIGHT = 80;
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+
+    [super viewWillDisappear:animated];
+    
+    for (ItemView *itemView in self.view.subviews) {
+        
+        itemView.image = [UIImage imageNamed:@""];
+    }
+}
+
 - (ItemView *)generateRandomItems:(int)count{
     
     CGRect frame;

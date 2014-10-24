@@ -7,15 +7,19 @@
 //
 
 #import "GameViewController.h"
+#import "GameView.h"
 #import "ItemView.h"
 #import "RequiredItemView.h"
 #import "ItemViewController.h"
 #import "RequiredItemViewController.h"
+#import "PlayerModel.h"
 
 @interface GameViewController () <ItemViewControllerDelegate>
 
 @property (retain, nonatomic) ItemViewController *itemView;
 @property (retain, nonatomic) RequiredItemViewController *requiredItem;
+@property (retain, nonatomic) PlayerModel *player;
+@property (retain, nonatomic) GameView *gameView;
 
 @end
 
@@ -24,10 +28,19 @@
 - (void)viewDidLoad{
  
     [super viewDidLoad];
+    
+    self.gameView = [[GameView alloc]init];
+    
+    [self setView:self.gameView];
+    
+    self.player = [[PlayerModel alloc]init];
     [self startALevel];
 }
 
 - (void)startALevel{
+    
+    self.gameView.playerScoreLabel.text = [NSString stringWithFormat:@"%d", self.player.playerScore];
+    self.gameView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d", self.player.numberOfAttemptsLeft];
     
     self.itemView = [[ItemViewController alloc]init];
     self.requiredItem = [[RequiredItemViewController alloc]init];
@@ -53,10 +66,22 @@
 
     if (selectedItem.itemIdentifier == requiredItem.itemIdentifier) {
         NSLog(@"Correct");
+        
+        [self.itemView viewWillDisappear:YES];
+        [self.itemView removeFromParentViewController];
+        
+        [self.requiredItem viewWillDisappear:YES];
+        [self.requiredItem removeFromParentViewController];
+        
+        [self.player playerDidSelectCorrectAnswer];
+        NSLog(@"Score :%d", self.player.playerScore);
         [self startALevel];
     } else {
     
         NSLog(@"Wrong");
+        [self.player playerDidSelectWrongAnswer];
+        NSLog(@"Attempts left: %d", self.player.numberOfAttemptsLeft);
+        self.gameView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d", self.player.numberOfAttemptsLeft];
     }
 }
 
