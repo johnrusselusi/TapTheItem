@@ -11,10 +11,6 @@
 #import "ItemViewController.h"
 #import "ItemView.h"
 
-@interface RequiredItemViewController ()
-
-@end
-
 @implementation RequiredItemViewController
 
 - (void)viewDidLoad{

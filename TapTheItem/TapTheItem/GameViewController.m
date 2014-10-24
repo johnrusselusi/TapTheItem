@@ -7,7 +7,6 @@
 //
 
 #import "GameViewController.h"
-#import "GameView.h"
 #import "ItemView.h"
 #import "LevelViewController.h"
 #import "PlayerModel.h"
@@ -16,7 +15,6 @@
 
 @property (retain, nonatomic) LevelViewController *levelView;
 @property (retain, nonatomic) PlayerModel *player;
-@property (retain, nonatomic) GameView *gameView;
 
 @end
 
@@ -26,9 +24,7 @@
  
     [super viewDidLoad];
     
-    self.gameView = [[GameView alloc]init];
-    
-    [self setView:self.gameView];
+    [[self.navigationController navigationController] setNavigationBarHidden:YES animated:YES];
     
     [self startALevel];
 }

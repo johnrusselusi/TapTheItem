@@ -16,7 +16,10 @@
 
 int const DEFAULT_TIME = 5;
 
-@interface LevelViewController () <ItemViewControllerDelegate>
+NSString *const GAMEOVER_ALERT_VIEW_TITLE = @"Game Over";
+NSString *const TRY_AGAIN_BUTTON = @"Try Again";
+
+@interface LevelViewController () <ItemViewControllerDelegate, UIAlertViewDelegate>
 
 @property (retain, nonatomic) LevelView *levelView;
 @property (retain, nonatomic) ItemViewController *itemView;
@@ -73,15 +76,14 @@ int const DEFAULT_TIME = 5;
 
 - (void)updateTimer:(NSTimer *)timer{
 
-    if (self.timeLeft > 0) {
+    if (self.timeLeft > 1) {
         
         self.timeLeft--;
         self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%d", self.timeLeft];
     } else {
     
-        NSLog(@"Gameover");
         [self.levelTimer invalidate];
-        self.levelTimer = nil;
+        [self gameOverScreen];
     }
 }
 
@@ -120,8 +122,30 @@ int const DEFAULT_TIME = 5;
                                                              self.player.numberOfAttemptsLeft];
         } else {
             [self.levelTimer invalidate];
-            NSLog(@"Gameover");
+            [self gameOverScreen];
         }
+    }
+}
+
+- (void)gameOverScreen{
+
+    UIAlertView *gameOverAlertView = [[UIAlertView alloc]initWithTitle:GAMEOVER_ALERT_VIEW_TITLE
+                                                               message:[NSString stringWithFormat:@"Score: %d", self.player.playerScore]
+                                                              delegate:nil
+                                                     cancelButtonTitle:nil
+                                                     otherButtonTitles:TRY_AGAIN_BUTTON, nil];
+    
+    [gameOverAlertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex{
+
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+
+    if ([title isEqualToString:TRY_AGAIN_BUTTON]) {
+        
+        [self prepareViewForReload];
     }
 }
 
