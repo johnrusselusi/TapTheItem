@@ -14,6 +14,8 @@
 #import "RequiredItemView.h"
 #import "PlayerModel.h"
 
+int const DEFAULT_TIME = 5;
+
 @interface LevelViewController () <ItemViewControllerDelegate>
 
 @property (retain, nonatomic) LevelView *levelView;
@@ -25,18 +27,6 @@
 @end
 
 @implementation LevelViewController
-
-- (instancetype)init{
-
-    self = [super init];
-    
-    if (self) {
-        
-        self.timeLeft = 5;
-    }
-    
-    return self;
-}
 
 - (void)viewDidLoad{
 
@@ -52,9 +42,16 @@
 
 - (void)initializeNewLevel{
     
-    self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%d", self.timeLeft];
-    self.levelView.playerScoreLabel.text = [NSString stringWithFormat:@"%d", self.player.playerScore];
-    self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d", self.player.numberOfAttemptsLeft];
+    self.timeLeft = DEFAULT_TIME;
+    
+    self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%d",
+                                         self.timeLeft];
+    
+    self.levelView.playerScoreLabel.text = [NSString stringWithFormat:@"%d",
+                                            self.player.playerScore];
+    
+    self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d",
+                                                     self.player.numberOfAttemptsLeft];
     
     self.itemView = [[ItemViewController alloc]init];
     self.requiredItem = [[RequiredItemViewController alloc]init];
@@ -83,6 +80,8 @@
     } else {
     
         NSLog(@"Gameover");
+        [self.levelTimer invalidate];
+        self.levelTimer = nil;
     }
 }
 
@@ -99,20 +98,30 @@
     if (selectedItem.itemIdentifier == requiredItem.itemIdentifier) {
         
         NSLog(@"Correct");
-        
+        [self.levelTimer invalidate];
         self.player.playerScore += self.player.numberOfAttemptsLeft;
         self.player.numberOfAttemptsLeft = 3;
         
-        self.levelView.playerScoreLabel.text = [NSString stringWithFormat:@"%d", self.player.playerScore];
-        self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d", self.player.numberOfAttemptsLeft];
+        self.levelView.playerScoreLabel.text = [NSString stringWithFormat:@"%d",
+                                                self.player.playerScore];
+        
+        self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d",
+                                                         self.player.numberOfAttemptsLeft];
         
         [self prepareViewForReload];
     } else {
     
         NSLog(@"Wrong");
         
-        self.player.numberOfAttemptsLeft -= 1;
-        self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d", self.player.numberOfAttemptsLeft];
+        if (self.player.numberOfAttemptsLeft > 0) {
+            
+            self.player.numberOfAttemptsLeft -= 1;
+            self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d",
+                                                             self.player.numberOfAttemptsLeft];
+        } else {
+            [self.levelTimer invalidate];
+            NSLog(@"Gameover");
+        }
     }
 }
 
