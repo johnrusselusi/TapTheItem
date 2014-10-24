@@ -21,7 +21,6 @@
     
     [super viewDidLoad];
     [self setView:[self generateRequiredItemFromSelectionItems:self.selectionItems]];
-    NSLog(@"%d", self.selectedItem.itemIdentifier);
 }
 
 - (void)viewWillDisappear:(BOOL)animated{

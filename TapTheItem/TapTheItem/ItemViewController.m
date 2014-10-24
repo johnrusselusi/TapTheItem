@@ -53,7 +53,6 @@ float const ITEMVIEW_HEIGHT = 80;
     for (ItemView *items in self.availableItems) {
         
         [self.view addSubview:items];
-        NSLog(@"%d", items.itemIdentifier);
     }
 }
 
@@ -63,7 +62,8 @@ float const ITEMVIEW_HEIGHT = 80;
     
     for (ItemView *itemView in self.view.subviews) {
         
-        itemView.image = [UIImage imageNamed:@""];
+        itemView.image = nil;
+        [itemView release];
     }
 }
 

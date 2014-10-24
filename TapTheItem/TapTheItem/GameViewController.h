@@ -11,6 +11,4 @@
 
 @interface GameViewController : UIViewController
 
-@property (retain, nonatomic) ItemView *playerSelectedItem;
-
 @end
