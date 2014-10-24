@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ItemView;
+
+@protocol ItemViewControllerDelegate <NSObject>
+
+- (void)didSelectAnItem:(ItemView *)selectedItem;
+
+@end
 
 @interface ItemViewController : UIViewController
 
+@property (retain, nonatomic) id<ItemViewControllerDelegate>delegate;
 @property (retain, nonatomic) NSMutableArray *availableItems;
 
 @end

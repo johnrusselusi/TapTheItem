@@ -23,11 +23,10 @@ CGPoint const NINTH_ITEMVIEW = {380, 220};
 float const ITEMVIEW_WIDTH = 80;
 float const ITEMVIEW_HEIGHT = 80;
 
-@interface ItemViewController ()
+@interface ItemViewController () <UIGestureRecognizerDelegate>
 
 @property (retain, nonatomic) NSArray *itemsName;
 @property (nonatomic) NSMutableArray *itemsSelection;
-@property (retain, nonatomic) ItemView *itemView;
 
 @end
 
@@ -55,6 +54,16 @@ float const ITEMVIEW_HEIGHT = 80;
         
         [self.view addSubview:items];
         NSLog(@"%d", items.itemIdentifier);
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+
+    [super viewWillDisappear:animated];
+    
+    for (ItemView *itemView in self.view.subviews) {
+        
+        itemView.image = [UIImage imageNamed:@""];
     }
 }
 
@@ -102,7 +111,8 @@ float const ITEMVIEW_HEIGHT = 80;
     itemView.itemIdentifier = count;
     itemView.image = image;
     
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(itemViewTapped:)];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]
+                                                    initWithTarget:self action:@selector(itemViewTapped:)];
     
     [itemView addGestureRecognizer:tapGestureRecognizer];
     
@@ -111,7 +121,7 @@ float const ITEMVIEW_HEIGHT = 80;
 
 - (void)itemViewTapped:(UITapGestureRecognizer *)gr{
     
-    NSLog(@"You tapped %d", self.itemView.itemIdentifier);
+    [self.delegate didSelectAnItem:(ItemView *)gr.view];
 }
                                                 
 @end

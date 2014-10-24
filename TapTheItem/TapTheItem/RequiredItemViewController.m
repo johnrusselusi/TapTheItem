@@ -13,8 +13,6 @@
 
 @interface RequiredItemViewController ()
 
-@property (retain, nonatomic) RequiredItemView *selectedItem;
-
 @end
 
 @implementation RequiredItemViewController
@@ -24,6 +22,13 @@
     [super viewDidLoad];
     [self setView:[self generateRequiredItemFromSelectionItems:self.selectionItems]];
     NSLog(@"%d", self.selectedItem.itemIdentifier);
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+
+    [super viewWillDisappear:animated];
+    
+    self.selectedItem.image = [UIImage imageNamed:@""];
 }
 
 - (RequiredItemView *)generateRequiredItemFromSelectionItems:(NSArray *)selectionItems{
