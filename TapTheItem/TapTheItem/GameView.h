@@ -10,7 +10,4 @@
 
 @interface GameView : UIScrollView
 
-@property (retain, nonatomic) UILabel *playerScoreLabel;
-@property (retain, nonatomic) UILabel *numberOfAttemptsLeftLabel;
-
 @end

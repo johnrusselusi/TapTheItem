@@ -9,15 +9,12 @@
 #import "GameViewController.h"
 #import "GameView.h"
 #import "ItemView.h"
-#import "RequiredItemView.h"
-#import "ItemViewController.h"
-#import "RequiredItemViewController.h"
+#import "LevelViewController.h"
 #import "PlayerModel.h"
 
-@interface GameViewController () <ItemViewControllerDelegate>
+@interface GameViewController ()
 
-@property (retain, nonatomic) ItemViewController *itemView;
-@property (retain, nonatomic) RequiredItemViewController *requiredItem;
+@property (retain, nonatomic) LevelViewController *levelView;
 @property (retain, nonatomic) PlayerModel *player;
 @property (retain, nonatomic) GameView *gameView;
 
@@ -33,55 +30,18 @@
     
     [self setView:self.gameView];
     
-    self.player = [[PlayerModel alloc]init];
     [self startALevel];
 }
 
 - (void)startALevel{
     
-    self.gameView.playerScoreLabel.text = [NSString stringWithFormat:@"%d", self.player.playerScore];
-    self.gameView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d", self.player.numberOfAttemptsLeft];
+    self.levelView = [[LevelViewController alloc]init];
     
-    self.itemView = [[ItemViewController alloc]init];
-    self.requiredItem = [[RequiredItemViewController alloc]init];
+    [self.view addSubview:self.levelView.view];
     
-    self.itemView.delegate = self;
-    
-    [self.view addSubview:self.itemView.view];
-    
-    self.requiredItem.selectionItems = [[NSMutableArray alloc]initWithArray:self.itemView.availableItems];
-    
-    [self.view addSubview:self.requiredItem.view];
-}
-
-- (void)didSelectAnItem:(ItemView *)selectedItem{
-
-    self.playerSelectedItem = selectedItem;
-    [self compareSelectedItemAndRequiredItem:self.playerSelectedItem
-                                requiredItem:self.requiredItem.selectedItem];
-}
-
-- (void)compareSelectedItemAndRequiredItem:(ItemView *)selectedItem
-                              requiredItem:(RequiredItemView *)requiredItem{
-
-    if (selectedItem.itemIdentifier == requiredItem.itemIdentifier) {
-        NSLog(@"Correct");
+    for (ItemView *view in self.levelView.view.subviews) {
         
-        [self.itemView viewWillDisappear:YES];
-        [self.itemView removeFromParentViewController];
-        
-        [self.requiredItem viewWillDisappear:YES];
-        [self.requiredItem removeFromParentViewController];
-        
-        [self.player playerDidSelectCorrectAnswer];
-        NSLog(@"Score :%d", self.player.playerScore);
-        [self startALevel];
-    } else {
-    
-        NSLog(@"Wrong");
-        [self.player playerDidSelectWrongAnswer];
-        NSLog(@"Attempts left: %d", self.player.numberOfAttemptsLeft);
-        self.gameView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d", self.player.numberOfAttemptsLeft];
+        [self.view addSubview:view];
     }
 }
 

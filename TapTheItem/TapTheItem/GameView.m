@@ -8,52 +8,6 @@
 
 #import "GameView.h"
 
-CGRect const SCORE_LABEL_FRAME = {20, 236, 60, 21};
-CGRect const LIFE_LABEL_FRAME = {20, 265, 40, 21};
-CGRect const TIME_LABEL_FRAME = {20, 63, 83, 21};
-CGRect const PLAYER_SCORE_LABEL_FRAME = {81, 236, 114, 21};
-CGRect const ATTEMPTS_LEFT_LABEL_FRAME = {81, 265, 131, 21};
-
-@interface GameView ()
-
-@property (nonatomic) UILabel *scoreLabel;
-@property (nonatomic) UILabel *lifeLabel;
-@property (nonatomic) UILabel *timeLabel;
-
-@end
-
 @implementation GameView
-
-- (instancetype)init{
-
-    self = [super init];
-    
-    if (self) {
-        
-        self.timeLabel = [[UILabel alloc]init];
-        self.scoreLabel = [[UILabel alloc]init];
-        self.lifeLabel = [[UILabel alloc]init];
-        self.playerScoreLabel = [[UILabel alloc]init];
-        self.numberOfAttemptsLeftLabel = [[UILabel alloc]init];
-        
-        self.timeLabel.frame = TIME_LABEL_FRAME;
-        self.scoreLabel.frame = SCORE_LABEL_FRAME;
-        self.lifeLabel.frame = LIFE_LABEL_FRAME;
-        self.playerScoreLabel.frame = PLAYER_SCORE_LABEL_FRAME;
-        self.numberOfAttemptsLeftLabel.frame = ATTEMPTS_LEFT_LABEL_FRAME;
-        
-        self.timeLabel.text = @"Time Left :";
-        self.scoreLabel.text = @"Score :";
-        self.lifeLabel.text = @"Life :";
-        
-        [self addSubview:self.timeLabel];
-        [self addSubview:self.scoreLabel];
-        [self addSubview:self.lifeLabel];
-        [self addSubview:self.playerScoreLabel];
-        [self addSubview:self.numberOfAttemptsLeftLabel];
-    }
-    
-    return self;
-}
 
 @end
