@@ -14,39 +14,52 @@
 #import "RequiredItemView.h"
 #import "PlayerModel.h"
 
-int const DEFAULT_TIME = 5;
+int const STARTING_TIME = 5;
+int const STARTING_NUMBER_OF_ATTEMPTS = 3;
+int const STARTING_PLAYER_SCORE = 0;
 
-NSString *const GAMEOVER_ALERT_VIEW_TITLE = @"Game Over";
-NSString *const TRY_AGAIN_BUTTON = @"Try Again";
-
-@interface LevelViewController () <ItemViewControllerDelegate, UIAlertViewDelegate>
+@interface LevelViewController () <ItemViewControllerDelegate, UIAlertViewDelegate, NSCoding>
 
 @property (retain, nonatomic) LevelView *levelView;
 @property (retain, nonatomic) ItemViewController *itemView;
 @property (retain, nonatomic) RequiredItemViewController *requiredItem;
-@property (retain, nonatomic) ItemView *playerSelectedItem;
 @property (retain, nonatomic) PlayerModel *player;
 
 @end
 
 @implementation LevelViewController
 
+#pragma mark - View Life Cycle
+
 - (void)viewDidLoad{
 
     [super viewDidLoad];
     
-    self.player = [[PlayerModel alloc]init];
+    self.player = [[[PlayerModel alloc]init] autorelease];
     
-    self.levelView = [[LevelView alloc]init];
+    self.levelView = [[[LevelView alloc]init] autorelease];
+    
     [self setView:self.levelView];
     
-    [self initializeNewLevel];
+    [self startNewLevel];
 }
 
-- (void)initializeNewLevel{
+#pragma mark - Game Cycle
+
+- (void)startNewLevel{
     
-    self.timeLeft = DEFAULT_TIME;
+    self.itemView = [[ItemViewController alloc]init];
+    self.requiredItem = [[[RequiredItemViewController alloc]init] autorelease];
     
+    self.itemView.delegate = self;
+
+    [self.view addSubview:self.itemView.view];
+    self.requiredItem.selectionItems = [[NSMutableArray alloc]
+                                         initWithArray:self.itemView.availableItems];
+    
+    [self.view addSubview:self.requiredItem.view];
+    
+    self.timeLeft = STARTING_TIME;
     self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%d",
                                          self.timeLeft];
     
@@ -56,41 +69,19 @@ NSString *const TRY_AGAIN_BUTTON = @"Try Again";
     self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d",
                                                      self.player.numberOfAttemptsLeft];
     
-    self.itemView = [[ItemViewController alloc]init];
-    self.requiredItem = [[RequiredItemViewController alloc]init];
-    
-    self.itemView.delegate = self;
-    
-    [self.view addSubview:self.itemView.view];
-    
-    self.requiredItem.selectionItems = [[NSMutableArray alloc]initWithArray:self.itemView.availableItems];
-    
-    [self.view addSubview:self.requiredItem.view];
-    
     self.levelTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                        target:self
                                                      selector:@selector(updateTimer:)
                                                      userInfo:nil
                                                       repeats:YES];
-}
 
-- (void)updateTimer:(NSTimer *)timer{
-
-    if (self.timeLeft > 1) {
-        
-        self.timeLeft--;
-        self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%d", self.timeLeft];
-    } else {
-    
-        [self.levelTimer invalidate];
-        [self gameOverScreen];
-    }
 }
 
 - (void)didSelectAnItem:(ItemView *)selectedItem{
-
-    self.playerSelectedItem = selectedItem;
-    [self compareSelectedItemAndRequiredItem:self.playerSelectedItem
+    
+    ItemView *playerSelectedItem = selectedItem;
+    
+    [self compareSelectedItemAndRequiredItem:playerSelectedItem
                                 requiredItem:self.requiredItem.selectedItem];
 }
 
@@ -110,9 +101,9 @@ NSString *const TRY_AGAIN_BUTTON = @"Try Again";
         self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d",
                                                          self.player.numberOfAttemptsLeft];
         
-        [self prepareViewForReload];
+        [self removeCurrentItems];
     } else {
-    
+        
         NSLog(@"Wrong");
         
         if (self.player.numberOfAttemptsLeft > 0) {
@@ -122,41 +113,114 @@ NSString *const TRY_AGAIN_BUTTON = @"Try Again";
                                                              self.player.numberOfAttemptsLeft];
         } else {
             [self.levelTimer invalidate];
-            [self gameOverScreen];
+            [self gameOver];
         }
     }
 }
 
-- (void)gameOverScreen{
-
-    UIAlertView *gameOverAlertView = [[UIAlertView alloc]initWithTitle:GAMEOVER_ALERT_VIEW_TITLE
-                                                               message:[NSString stringWithFormat:@"Score: %d", self.player.playerScore]
-                                                              delegate:nil
-                                                     cancelButtonTitle:nil
-                                                     otherButtonTitles:TRY_AGAIN_BUTTON, nil];
+- (void)removeCurrentItems{
     
-    [gameOverAlertView show];
-}
-
-- (void)alertView:(UIAlertView *)alertView
-clickedButtonAtIndex:(NSInteger)buttonIndex{
-
-    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-
-    if ([title isEqualToString:TRY_AGAIN_BUTTON]) {
-        
-        [self prepareViewForReload];
-    }
-}
-
-- (void)prepareViewForReload{
-
     [self.itemView viewWillDisappear:YES];
     [self.itemView removeFromParentViewController];
     
     [self.requiredItem viewWillDisappear:YES];
     [self.requiredItem removeFromParentViewController];
     
-    [self initializeNewLevel];
+    [self startNewLevel];
+}
+
+- (void)updateTimer:(NSTimer *)timer{
+    
+    if (self.timeLeft > 0) {
+        
+        self.timeLeft--;
+        self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%d", self.timeLeft];
+    } else {
+        
+        [self.levelTimer invalidate];
+        [self gameOver];
+    }
+}
+
+- (void)gameOver{
+    
+    if (self.highScore) {
+        if (self.player.playerScore > self.highScore) {
+            
+            self.highScore = self.player.playerScore;
+            [self writeNewHighScore];
+        }
+    }
+    
+    UIAlertView *gameOverAlert = [[UIAlertView alloc]initWithTitle:@"Game Over"
+                                                           message:[NSString stringWithFormat:@"Score :%d", self.player.playerScore]
+                                                          delegate:self
+                                                 cancelButtonTitle:nil
+                                                 otherButtonTitles:@"Try again", nil];
+    
+    [gameOverAlert show];
+    
+    self.player.playerScore = STARTING_PLAYER_SCORE;
+    self.player.numberOfAttemptsLeft = STARTING_NUMBER_OF_ATTEMPTS;
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex{
+
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    
+    if ([title isEqualToString:@"Try again"]) {
+        
+        [self removeCurrentItems];
+    }
+}
+
+- (NSString *)filePath{
+
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask,
+                                                         YES);
+    NSString *filePath = [paths objectAtIndex:0];
+    filePath = [filePath stringByAppendingPathComponent:@"score.json"];
+    return filePath;
+}
+
+- (void)readCurrentHighScore{
+    
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
+    self.highScore = [[dictionary valueForKey:@"highScore"] intValue];
+}
+
+- (void)writeNewHighScore{
+    
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:self.highScore]
+                                                                         forKey:@"highScore"];
+    
+    [[NSString stringWithFormat:@"%@",dictionary] writeToFile:[self filePath]
+                                                   atomically:YES
+                                                     encoding:NSUTF8StringEncoding
+                                                        error:nil];
+    
+}
+
+- (void)dealloc{
+
+    [_levelView release];
+    _levelView = nil;
+    
+    [_itemView release];
+    _itemView = nil;
+    
+    [_requiredItem release];
+    _requiredItem = nil;
+    
+    [_player release];
+    _player = nil;
+    
+    [_levelTimer release];
+    _levelTimer = nil;
+
+    [super dealloc];
 }
 @end

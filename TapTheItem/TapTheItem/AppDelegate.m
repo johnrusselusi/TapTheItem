@@ -8,16 +8,17 @@
 
 #import "AppDelegate.h"
 #import "GameViewController.h"
-#import "ItemViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     
-    GameViewController *viewController = [[GameViewController alloc]init];
+    GameViewController *viewController = [[[GameViewController alloc]init] autorelease];
+    
+    
     
     self.window.rootViewController = viewController;
     

@@ -14,5 +14,6 @@
 @property (nonatomic) int timeLeft;
 
 @property (retain, nonatomic) NSTimer *levelTimer;
+@property (nonatomic) int highScore;
 
 @end

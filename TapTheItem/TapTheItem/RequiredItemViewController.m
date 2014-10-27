@@ -30,8 +30,20 @@
 
     int randomIndex = arc4random_uniform((uint32_t)[selectionItems count]);
     
-    self.selectedItem = [[RequiredItemView alloc]initWithItemView:[selectionItems objectAtIndex:randomIndex]];
+    self.selectedItem = [[[RequiredItemView alloc]
+                          initWithItemView:[selectionItems objectAtIndex:randomIndex]] autorelease];
     
     return self.selectedItem;
+}
+
+- (void)dealloc{
+
+    [_selectionItems release];
+    _selectionItems = nil;
+    
+    [_selectedItem release];
+    _selectedItem = nil;
+    
+    [super dealloc];
 }
 @end

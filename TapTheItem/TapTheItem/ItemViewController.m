@@ -22,7 +22,6 @@ CGRect const NINTH_ITEMVIEW_FRAME = {380, 220, 80, 80};
 
 @interface ItemViewController () <UIGestureRecognizerDelegate>
 
-@property (retain, nonatomic) NSArray *itemsName;
 @property (nonatomic) NSMutableArray *itemsSelection;
 
 @end
@@ -39,12 +38,11 @@ CGRect const NINTH_ITEMVIEW_FRAME = {380, 220, 80, 80};
     
     NSString *filepath = [[NSBundle mainBundle]pathForResource:@"items" ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:filepath];
-    self.itemsName = [NSJSONSerialization JSONObjectWithData:data
+    NSArray *itemsName = [NSJSONSerialization JSONObjectWithData:data
                                                           options:kNilOptions
                                                             error:nil];
     
-    //Take note of this, this might not needed anymore
-    self.itemsSelection = [NSMutableArray arrayWithArray:self.itemsName];
+    self.itemsSelection = [NSMutableArray arrayWithArray:itemsName];
     
     for (int i = 0; i < 9; i++) {
         
@@ -108,7 +106,7 @@ CGRect const NINTH_ITEMVIEW_FRAME = {380, 220, 80, 80};
         frame = NINTH_ITEMVIEW_FRAME;
     }
     
-    ItemView *itemView = [[ItemView alloc]initWithFrame:frame];
+    ItemView *itemView = [[[ItemView alloc]initWithFrame:frame] autorelease];
     
     itemView.itemIdentifier = count;
     itemView.image = image;
@@ -119,11 +117,26 @@ CGRect const NINTH_ITEMVIEW_FRAME = {380, 220, 80, 80};
     [itemView addGestureRecognizer:tapGestureRecognizer];
     
     return itemView;
+    
 }
 
 - (void)itemViewTapped:(UITapGestureRecognizer *)gr{
     
     [self.delegate didSelectAnItem:(ItemView *)gr.view];
 }
-                                                
+
+-(void)dealloc{
+
+    [_itemsSelection release];
+    _itemsSelection = nil;
+    
+    [_delegate release];
+    _delegate = nil;
+    
+    [_availableItems release];
+    _availableItems = nil;
+    
+    [super dealloc];
+}
+
 @end

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-@class ItemView;
 
 @interface GameViewController : UIViewController
+
+@property (nonatomic) int highScore;
 
 @end
