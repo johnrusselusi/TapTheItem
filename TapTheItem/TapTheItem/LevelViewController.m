@@ -18,6 +18,11 @@ int const STARTING_TIME = 5;
 int const STARTING_NUMBER_OF_ATTEMPTS = 3;
 int const STARTING_PLAYER_SCORE = 0;
 
+NSString *const JSON_PATH = @"score.json";
+NSString *const HIGHSCORE_KEY = @"highScore";
+NSString *const ALERTVIEW_TITLE = @"Game Over";
+NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
+
 @interface LevelViewController () <ItemViewControllerDelegate, UIAlertViewDelegate, NSCoding>
 
 @property (retain, nonatomic) LevelView *levelView;
@@ -34,6 +39,7 @@ int const STARTING_PLAYER_SCORE = 0;
 - (void)viewDidLoad{
 
     [super viewDidLoad];
+    [self readCurrentHighScore];
     
     self.player = [[[PlayerModel alloc]init] autorelease];
     
@@ -144,19 +150,17 @@ int const STARTING_PLAYER_SCORE = 0;
 
 - (void)gameOver{
     
-    if (self.highScore) {
-        if (self.player.playerScore > self.highScore) {
-            
-            self.highScore = self.player.playerScore;
-            [self writeNewHighScore];
-        }
+    if (self.player.playerScore > self.highScore) {
+        
+        self.highScore = self.player.playerScore;
+        [self writeNewHighScore:self.highScore];
     }
     
-    UIAlertView *gameOverAlert = [[UIAlertView alloc]initWithTitle:@"Game Over"
-                                                           message:[NSString stringWithFormat:@"Score :%d", self.player.playerScore]
+    UIAlertView *gameOverAlert = [[UIAlertView alloc]initWithTitle:ALERTVIEW_TITLE
+                                                           message:[NSString stringWithFormat:@"Score :%d\nHigh Score :%d", self.player.playerScore, self.highScore]
                                                           delegate:self
                                                  cancelButtonTitle:nil
-                                                 otherButtonTitles:@"Try again", nil];
+                                                 otherButtonTitles:TRY_AGAIN_BUTTON_TITLE, nil];
     
     [gameOverAlert show];
     
@@ -170,7 +174,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
 
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     
-    if ([title isEqualToString:@"Try again"]) {
+    if ([title isEqualToString:TRY_AGAIN_BUTTON_TITLE]) {
         
         [self removeCurrentItems];
     }
@@ -182,20 +186,20 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
                                                          NSUserDomainMask,
                                                          YES);
     NSString *filePath = [paths objectAtIndex:0];
-    filePath = [filePath stringByAppendingPathComponent:@"score.json"];
+    filePath = [filePath stringByAppendingPathComponent:JSON_PATH];
     return filePath;
 }
 
 - (void)readCurrentHighScore{
     
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
-    self.highScore = [[dictionary valueForKey:@"highScore"] intValue];
+    self.highScore = [[dictionary valueForKey:HIGHSCORE_KEY] intValue];
 }
 
-- (void)writeNewHighScore{
+- (void)writeNewHighScore:(int)score{
     
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:self.highScore]
-                                                                         forKey:@"highScore"];
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:score]
+                                                                         forKey:HIGHSCORE_KEY];
     
     [[NSString stringWithFormat:@"%@",dictionary] writeToFile:[self filePath]
                                                    atomically:YES

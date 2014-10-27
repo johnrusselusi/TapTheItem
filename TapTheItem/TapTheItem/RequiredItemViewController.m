@@ -13,6 +13,8 @@
 
 @implementation RequiredItemViewController
 
+#pragma mark - View Life Cycle
+
 - (void)viewDidLoad{
     
     [super viewDidLoad];

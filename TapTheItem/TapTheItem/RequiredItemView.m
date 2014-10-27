@@ -9,7 +9,7 @@
 #import "RequiredItemView.h"
 #import "ItemView.h"
 
-CGRect const REQUIRED_ITEMVIEW_ORIGIN_FRAME = {20, 115, 90, 90};
+CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 @implementation RequiredItemView
 
@@ -19,7 +19,7 @@ CGRect const REQUIRED_ITEMVIEW_ORIGIN_FRAME = {20, 115, 90, 90};
     
     if (self) {
         
-        self.frame = REQUIRED_ITEMVIEW_ORIGIN_FRAME;
+        self.frame = REQUIRED_ITEMVIEW_FRAME;
         self.itemIdentifier = itemView.itemIdentifier;
         self.image = itemView.image;
     }
