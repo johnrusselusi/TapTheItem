@@ -10,6 +10,4 @@
 
 @interface GameViewController : UIViewController
 
-@property (nonatomic) int highScore;
-
 @end

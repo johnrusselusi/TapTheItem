@@ -11,6 +11,8 @@
 #import "ItemViewController.h"
 #import "ItemView.h"
 
+CGRect const REQUIRED_VIEW_FRAME = {20, 135, 165, 50};
+
 @implementation RequiredItemViewController
 
 #pragma mark - View Life Cycle
@@ -18,12 +20,17 @@
 - (void)viewDidLoad{
     
     [super viewDidLoad];
-    self.view.frame = CGRectMake(20, 135, 165, 50);
+    
+    UIView *view = [[UIView alloc]initWithFrame:REQUIRED_VIEW_FRAME];
+    
+    [self setView:view];
+
     self.requiredItems = [[NSMutableArray alloc]init];
     
-    for (int i = 0; i < 3; i++) {
+    for (int itemCount = 0; itemCount < 3; itemCount++) {
         
-        [self.requiredItems addObject:[self generateRequiredItemFromSelectionItems:self.selectionItems itemCount:i]];
+        [self.requiredItems addObject:[self generateRequiredItemFromSelectionItems:self.selectionItems
+                                                                         itemCount:itemCount]];
     }
     for (RequiredItemView *items in self.requiredItems) {
         
@@ -37,11 +44,13 @@
     
     for (RequiredItemView *items in self.requiredItems) {
         
-        items.image = [UIImage imageNamed:@""];
+        items.image = nil;
+        [items release];
     }
 }
 
-- (RequiredItemView *)generateRequiredItemFromSelectionItems:(NSArray *)selectionItems itemCount:(int)count{
+- (RequiredItemView *)generateRequiredItemFromSelectionItems:(NSArray *)selectionItems
+                                                   itemCount:(int)count{
 
     RequiredItemView *selectedItem = [[[RequiredItemView alloc]init] autorelease];
     

@@ -14,9 +14,10 @@
 #import "RequiredItemView.h"
 #import "PlayerModel.h"
 
-int const STARTING_TIME = 5;
+int const STARTING_TIME = 9;
 int const STARTING_NUMBER_OF_ATTEMPTS = 3;
 int const STARTING_PLAYER_SCORE = 0;
+int const MAXIMUM_PLAYER_ANSWER = 3;
 
 NSString *const JSON_PATH = @"score.json";
 NSString *const HIGHSCORE_KEY = @"highScore";
@@ -30,7 +31,6 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
 @property (retain, nonatomic) RequiredItemViewController *requiredItem;
 @property (retain, nonatomic) PlayerModel *player;
 @property (retain, nonatomic) NSMutableArray *playerSelectedItems;
-@property (nonatomic) int selectionCount;
 
 @end
 
@@ -65,7 +65,7 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
     self.itemView.delegate = self;
     
     [self.view addSubview:self.itemView.view];
-    
+
     self.requiredItem.selectionItems = [[NSMutableArray alloc]
                                          initWithArray:self.itemView.availableItems];
     
@@ -91,10 +91,10 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
 
 - (void)didSelectAnItem:(ItemView *)selectedItem{
     
-    if ([self.playerSelectedItems count] < 3) {
+    if ([self.playerSelectedItems count] < MAXIMUM_PLAYER_ANSWER) {
         
         [self.playerSelectedItems addObject:selectedItem];
-        if ([self.playerSelectedItems count] == 3) {
+        if ([self.playerSelectedItems count] == MAXIMUM_PLAYER_ANSWER) {
             
             [self compareSelectedItemsArrayToRequiredItemsArray:self.playerSelectedItems
                                                   requiredItems:self.requiredItem.requiredItems];
@@ -108,51 +108,17 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
     NSMutableArray *arrayOfSelectedItems = [[[NSMutableArray alloc]init] autorelease];
     NSMutableArray *arrayOfRequiredItems = [[[NSMutableArray alloc]init] autorelease];
     
-    for (ItemView *items in selectedItems) {
+    for (ItemView *availableItem in selectedItems) {
         
-        [arrayOfSelectedItems addObject:[NSNumber numberWithInt:items.itemIdentifier]];
+        [arrayOfSelectedItems addObject:[NSNumber numberWithInt:availableItem.itemIdentifier]];
     }
-    for (RequiredItemView *req in requiredItems) {
+    for (RequiredItemView *requiredItem in requiredItems) {
         
-        [arrayOfRequiredItems addObject:[NSNumber numberWithInt:req.itemIdentifier]];
+        [arrayOfRequiredItems addObject:[NSNumber numberWithInt:requiredItem.itemIdentifier]];
     }
     
     if ([arrayOfSelectedItems isEqualToArray:arrayOfRequiredItems]) {
         
-        NSLog(@"Correct");
-        [self.levelTimer invalidate];
-        self.player.playerScore += self.player.numberOfAttemptsLeft;
-        self.player.numberOfAttemptsLeft = 3;
-        
-        self.levelView.playerScoreLabel.text = [NSString stringWithFormat:@"%d",
-                                                self.player.playerScore];
-        
-        self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d",
-                                                         self.player.numberOfAttemptsLeft];
-        
-        [self removeCurrentItems];
-    } else {
-    
-        NSLog(@"Wrong");
-        
-        if (self.player.numberOfAttemptsLeft > 0) {
-            [self.playerSelectedItems removeAllObjects];
-            self.player.numberOfAttemptsLeft -= 1;
-            self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d",
-                                                             self.player.numberOfAttemptsLeft];
-        } else {
-            [self.levelTimer invalidate];
-            [self gameOver];
-        }
-    }
-}
-
-- (void)compareSelectedItemAndRequiredItem:(ItemView *)selectedItem
-                              requiredItem:(RequiredItemView *)requiredItem{
-    
-    if (selectedItem.itemIdentifier == requiredItem.itemIdentifier) {
-        
-        NSLog(@"Correct");
         [self.levelTimer invalidate];
         self.player.playerScore += self.player.numberOfAttemptsLeft;
         self.player.numberOfAttemptsLeft = 3;
@@ -166,11 +132,8 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
         [self removeCurrentItems];
     } else {
         
-        NSLog(@"Wrong");
-        
         if (self.player.numberOfAttemptsLeft > 0) {
             [self.playerSelectedItems removeAllObjects];
-            NSLog(@"%@", self.playerSelectedItems);
             self.player.numberOfAttemptsLeft -= 1;
             self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d",
                                                              self.player.numberOfAttemptsLeft];

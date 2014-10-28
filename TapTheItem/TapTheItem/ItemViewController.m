@@ -9,6 +9,11 @@
 #import "ItemViewController.h"
 #import "ItemView.h"
 
+NSString *const IMAGE_FILENAMES = @"items";
+NSString *const FRAMES_ARRAY = @"itemview_frames";
+
+CGRect const ITEMVIEW_FRAME = {200, 27, 256, 256};
+
 @interface ItemViewController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic) NSMutableArray *itemsSelection;
@@ -22,10 +27,14 @@
 -(void)viewDidLoad{
     
     [super viewDidLoad];
-    self.view.frame = CGRectMake(200, 27, 260, 266);
+    
+    UIView *view = [[UIView alloc]initWithFrame:ITEMVIEW_FRAME];
+    
+    [self setView:view];
+    
     self.availableItems = [[NSMutableArray alloc]init];
     
-    NSString *filepath = [[NSBundle mainBundle]pathForResource:@"items" ofType:@"json"];
+    NSString *filepath = [[NSBundle mainBundle]pathForResource:IMAGE_FILENAMES ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:filepath];
     NSArray *itemsName = [NSJSONSerialization JSONObjectWithData:data
                                                           options:kNilOptions
@@ -33,9 +42,9 @@
     
     self.itemsSelection = [NSMutableArray arrayWithArray:itemsName];
     
-    for (int i = 0; i < 9; i++) {
+    for (int itemCount = 0; itemCount < 9; itemCount++) {
         
-        [self.availableItems addObject:[self generateRandomItems:i]];
+        [self.availableItems addObject:[self generateRandomItems:itemCount]];
     }
     for (ItemView *items in self.availableItems) {
         
@@ -58,7 +67,7 @@
 
 - (ItemView *)generateRandomItems:(int)count{
     
-    NSString *filepath = [[NSBundle mainBundle]pathForResource:@"frames" ofType:@"json"];
+    NSString *filepath = [[NSBundle mainBundle]pathForResource:FRAMES_ARRAY ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:filepath];
     NSArray *frames = [NSJSONSerialization JSONObjectWithData:data
                                                          options:kNilOptions

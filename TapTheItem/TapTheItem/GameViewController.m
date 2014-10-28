@@ -10,10 +10,6 @@
 #import "ItemView.h"
 #import "LevelViewController.h"
 
-@interface GameViewController ()
-
-@end
-
 @implementation GameViewController
 
 - (void)viewDidLoad{
