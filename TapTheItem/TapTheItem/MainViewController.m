@@ -17,7 +17,7 @@
 
 - (IBAction)startButtonPressed:(id)sender {
     
-    GameViewController *gameView = [[GameViewController alloc]init];
+    GameViewController *gameView = [[[GameViewController alloc]init] autorelease];
     
     gameView.navigationController.navigationBarHidden = YES;
     

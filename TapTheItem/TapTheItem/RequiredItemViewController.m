@@ -21,15 +21,15 @@ CGRect const REQUIRED_VIEW_FRAME = {20, 135, 165, 50};
     
     [super viewDidLoad];
     
-    UIView *view = [[UIView alloc]initWithFrame:REQUIRED_VIEW_FRAME];
+    UIView *view = [[[UIView alloc]initWithFrame:REQUIRED_VIEW_FRAME] autorelease];
     
     [self setView:view];
 
-    self.requiredItems = [[NSMutableArray alloc]init];
+    self.requiredItems = [[[NSMutableArray alloc]init] autorelease];
     
     for (int itemCount = 0; itemCount < 3; itemCount++) {
         
-        [self.requiredItems addObject:[self generateRequiredItemFromSelectionItems:self.selectionItems
+        [self.requiredItems addObject:[self generateRequiredItemFromAvailableItems:self.displayedItems
                                                                          itemCount:itemCount]];
     }
     for (RequiredItemView *items in self.requiredItems) {
@@ -49,25 +49,23 @@ CGRect const REQUIRED_VIEW_FRAME = {20, 135, 165, 50};
     }
 }
 
-- (RequiredItemView *)generateRequiredItemFromSelectionItems:(NSArray *)selectionItems
+- (RequiredItemView *)generateRequiredItemFromAvailableItems:(NSArray *)availableItems
                                                    itemCount:(int)count{
-
-    RequiredItemView *selectedItem = [[[RequiredItemView alloc]init] autorelease];
     
-    int randomIndex = arc4random_uniform((uint32_t)[selectionItems count]);
+    int randomIndex = arc4random_uniform((uint32_t)[availableItems count]);
     
-    selectedItem = [[RequiredItemView alloc]initWithItemView:[selectionItems objectAtIndex:randomIndex]
-                                                        itemCount:count];
+    RequiredItemView *selectedItem = [[[RequiredItemView alloc]initWithItemView:[availableItems objectAtIndex:randomIndex]
+                                                        itemCount:count] autorelease];
     
-    [self.selectionItems removeObjectAtIndex:randomIndex];
+    [self.displayedItems removeObjectAtIndex:randomIndex];
     
     return selectedItem;
 }
 
 - (void)dealloc{
 
-    [_selectionItems release];
-    _selectionItems = nil;
+    [_displayedItems release];
+    _displayedItems = nil;
     
     [_requiredItems release];
     _requiredItems = nil;

@@ -79,7 +79,7 @@ CGRect const ITEMVIEW_FRAME = {200, 27, 256, 256};
     
     [self.itemsSelection removeObjectAtIndex:randomIndex];
     
-    ItemView *itemView = [[ItemView alloc]initWithFrame:CGRectFromString([frames objectAtIndex:count])];
+    ItemView *itemView = [[[ItemView alloc]initWithFrame:CGRectFromString([frames objectAtIndex:count])] autorelease];
     
     itemView.itemIdentifier = count;
     itemView.image = image;

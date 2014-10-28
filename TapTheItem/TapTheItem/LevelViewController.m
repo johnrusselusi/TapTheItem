@@ -30,6 +30,7 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
 @property (retain, nonatomic) ItemViewController *itemView;
 @property (retain, nonatomic) RequiredItemViewController *requiredItem;
 @property (retain, nonatomic) PlayerModel *player;
+
 @property (retain, nonatomic) NSMutableArray *playerSelectedItems;
 
 @end
@@ -42,7 +43,7 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
 
     [super viewDidLoad];
     
-    self.playerSelectedItems = [[NSMutableArray alloc]init];
+    self.playerSelectedItems = [[[NSMutableArray alloc]init] autorelease];
     
     [self readCurrentHighScore];
     
@@ -60,14 +61,15 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
 - (void)startNewLevel{
     
     self.itemView = [[ItemViewController alloc]init];
-    self.requiredItem = [[[RequiredItemViewController alloc]init] autorelease];
     
     self.itemView.delegate = self;
     
     [self.view addSubview:self.itemView.view];
 
-    self.requiredItem.selectionItems = [[NSMutableArray alloc]
-                                         initWithArray:self.itemView.availableItems];
+    self.requiredItem = [[[RequiredItemViewController alloc]init] autorelease];
+    
+    self.requiredItem.displayedItems = [[[NSMutableArray alloc]
+                                         initWithArray:self.itemView.availableItems] autorelease];
     
     [self.view addSubview:self.requiredItem.view];
     
@@ -246,6 +248,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     [_levelTimer release];
     _levelTimer = nil;
+    
+    [_playerSelectedItems release];
+    _playerSelectedItems = nil;
 
     [super dealloc];
 }

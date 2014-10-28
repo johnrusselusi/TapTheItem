@@ -11,7 +11,7 @@
 
 @interface RequiredItemViewController : UIViewController
 
-@property (retain, nonatomic) NSMutableArray *selectionItems;
+@property (retain, nonatomic) NSMutableArray *displayedItems;
 @property (retain, nonatomic) NSMutableArray *requiredItems;
 
 @end
