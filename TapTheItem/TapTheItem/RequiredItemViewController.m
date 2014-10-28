@@ -18,22 +18,37 @@
 - (void)viewDidLoad{
     
     [super viewDidLoad];
-    [self setView:[self generateRequiredItemFromSelectionItems:self.selectionItems]];
+    
+    self.requiredItems = [[NSMutableArray alloc]init];
+    
+    for (int i = 0; i < 3; i++) {
+        
+        [self.requiredItems addObject:[self generateRequiredItemFromSelectionItems:self.selectionItems itemCount:i]];
+    }
+    for (RequiredItemView *items in self.requiredItems) {
+        
+        [self.view addSubview:items];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
 
     [super viewWillDisappear:animated];
     
-    self.selectedItem.image = [UIImage imageNamed:@""];
+    for (RequiredItemView *items in self.requiredItems) {
+        
+        items.image = [UIImage imageNamed:@""];
+    }
 }
 
-- (RequiredItemView *)generateRequiredItemFromSelectionItems:(NSArray *)selectionItems{
+- (RequiredItemView *)generateRequiredItemFromSelectionItems:(NSArray *)selectionItems itemCount:(int)count{
 
     int randomIndex = arc4random_uniform((uint32_t)[selectionItems count]);
     
-    self.selectedItem = [[[RequiredItemView alloc]
-                          initWithItemView:[selectionItems objectAtIndex:randomIndex]] autorelease];
+    self.selectedItem = [[RequiredItemView alloc]initWithItemView:[selectionItems objectAtIndex:randomIndex]
+                                                        itemCount:count];
+    
+    [self.selectionItems removeObjectAtIndex:randomIndex];
     
     return self.selectedItem;
 }
@@ -45,6 +60,9 @@
     
     [_selectedItem release];
     _selectedItem = nil;
+    
+    [_requiredItems release];
+    _requiredItems = nil;
     
     [super dealloc];
 }

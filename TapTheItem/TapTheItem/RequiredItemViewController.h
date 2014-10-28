@@ -13,5 +13,6 @@
 
 @property (retain, nonatomic) NSMutableArray *selectionItems;
 @property (retain, nonatomic) RequiredItemView *selectedItem;
+@property (retain, nonatomic) NSMutableArray *requiredItems;
 
 @end

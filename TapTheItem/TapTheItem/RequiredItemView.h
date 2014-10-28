@@ -13,6 +13,6 @@
 
 @property (nonatomic) int itemIdentifier;
 
-- (instancetype)initWithItemView:(ItemView *)itemView;
+- (instancetype)initWithItemView:(ItemView *)itemView itemCount:(int)count;
 
 @end

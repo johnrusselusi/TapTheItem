@@ -9,17 +9,29 @@
 #import "RequiredItemView.h"
 #import "ItemView.h"
 
-CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
+CGRect const FIRST_REQUIRED_ITEMVIEW_FRAME = {20, 135, 50, 50};
+CGRect const SECOND_REQUIRED_ITEMVIEW_FRAME = {77, 135, 50, 50};
+CGRect const THIRD_REQUIRED_ITEMVIEW_FRAME = {135, 135, 50, 50};
 
 @implementation RequiredItemView
 
-- (instancetype)initWithItemView:(ItemView *)itemView{
+- (instancetype)initWithItemView:(ItemView *)itemView itemCount:(int)count{
 
     self = [super init];
     
     if (self) {
         
-        self.frame = REQUIRED_ITEMVIEW_FRAME;
+        if (count == 0) {
+            
+            self.frame = FIRST_REQUIRED_ITEMVIEW_FRAME;
+        } else if (count == 1) {
+        
+            self.frame = SECOND_REQUIRED_ITEMVIEW_FRAME;
+        } else if (count == 2) {
+        
+            self.frame = THIRD_REQUIRED_ITEMVIEW_FRAME;
+        }
+        
         self.itemIdentifier = itemView.itemIdentifier;
         self.image = itemView.image;
     }
