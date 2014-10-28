@@ -18,7 +18,7 @@
 - (void)viewDidLoad{
     
     [super viewDidLoad];
-    
+    self.view.frame = CGRectMake(20, 135, 165, 50);
     self.requiredItems = [[NSMutableArray alloc]init];
     
     for (int i = 0; i < 3; i++) {
@@ -43,23 +43,22 @@
 
 - (RequiredItemView *)generateRequiredItemFromSelectionItems:(NSArray *)selectionItems itemCount:(int)count{
 
+    RequiredItemView *selectedItem = [[[RequiredItemView alloc]init] autorelease];
+    
     int randomIndex = arc4random_uniform((uint32_t)[selectionItems count]);
     
-    self.selectedItem = [[RequiredItemView alloc]initWithItemView:[selectionItems objectAtIndex:randomIndex]
+    selectedItem = [[RequiredItemView alloc]initWithItemView:[selectionItems objectAtIndex:randomIndex]
                                                         itemCount:count];
     
     [self.selectionItems removeObjectAtIndex:randomIndex];
     
-    return self.selectedItem;
+    return selectedItem;
 }
 
 - (void)dealloc{
 
     [_selectionItems release];
     _selectionItems = nil;
-    
-    [_selectedItem release];
-    _selectedItem = nil;
     
     [_requiredItems release];
     _requiredItems = nil;

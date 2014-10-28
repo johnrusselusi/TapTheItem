@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Klab Cyscorpions Training Center. All rights reserved.
 //
 
-#import "RequiredItemView.h"
 #import "ItemViewController.h"
 #import "ItemView.h"
 
@@ -23,7 +22,7 @@
 -(void)viewDidLoad{
     
     [super viewDidLoad];
-    
+    self.view.frame = CGRectMake(200, 27, 260, 266);
     self.availableItems = [[NSMutableArray alloc]init];
     
     NSString *filepath = [[NSBundle mainBundle]pathForResource:@"items" ofType:@"json"];

@@ -9,9 +9,9 @@
 #import "RequiredItemView.h"
 #import "ItemView.h"
 
-CGRect const FIRST_REQUIRED_ITEMVIEW_FRAME = {20, 135, 50, 50};
-CGRect const SECOND_REQUIRED_ITEMVIEW_FRAME = {77, 135, 50, 50};
-CGRect const THIRD_REQUIRED_ITEMVIEW_FRAME = {135, 135, 50, 50};
+CGRect const FIRST_REQUIRED_ITEMVIEW_FRAME = {0, 0, 50, 50};
+CGRect const SECOND_REQUIRED_ITEMVIEW_FRAME = {57, 0, 50, 50};
+CGRect const THIRD_REQUIRED_ITEMVIEW_FRAME = {115, 0, 50, 50};
 
 @implementation RequiredItemView
 

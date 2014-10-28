@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "LevelViewController.h"
 
 @implementation AppDelegate
 
@@ -18,8 +19,12 @@
     
     MainViewController *mvc = [[[MainViewController alloc]init] autorelease];
     mvc.navigationController.navigationBarHidden = YES;
+    
+    LevelViewController *lvc = [[[LevelViewController alloc]init] autorelease];
+    lvc.navigationController.navigationBarHidden = YES;
+    
     UINavigationController *navigationController = [[[UINavigationController alloc]
-                                                     initWithRootViewController:mvc] autorelease];
+                                                     initWithRootViewController:lvc] autorelease];
     navigationController.navigationBarHidden = YES;
     self.window.rootViewController = navigationController;
     
