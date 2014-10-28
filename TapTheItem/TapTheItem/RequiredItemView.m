@@ -9,10 +9,7 @@
 #import "RequiredItemView.h"
 #import "ItemView.h"
 
-CGPoint const REQUIRED_ITEMVIEW_ORIGIN = {20, 115};
-
-float const REQUIRED_ITEMVIEW_WIDTH = 90;
-float const REQUIRED_ITEMVIEW_HEIGHT = 90;
+CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 @implementation RequiredItemView
 
@@ -21,15 +18,10 @@ float const REQUIRED_ITEMVIEW_HEIGHT = 90;
     self = [super init];
     
     if (self) {
-        CGRect frame = CGRectMake(REQUIRED_ITEMVIEW_ORIGIN.x,
-                                  REQUIRED_ITEMVIEW_ORIGIN.y,
-                                   REQUIRED_ITEMVIEW_WIDTH,
-                                  REQUIRED_ITEMVIEW_HEIGHT);
         
-        self.frame = frame;
+        self.frame = REQUIRED_ITEMVIEW_FRAME;
         self.itemIdentifier = itemView.itemIdentifier;
         self.image = itemView.image;
-        self.userInteractionEnabled = YES;
     }
     return self;
 }

@@ -17,10 +17,6 @@ CGRect const TIME_LEFT_LABEL_FRAME = {111, 63, 10, 21};
 
 @interface LevelView ()
 
-@property (nonatomic) UILabel *scoreLabel;
-@property (nonatomic) UILabel *lifeLabel;
-@property (nonatomic) UILabel *timeLabel;
-
 @end
 
 @implementation LevelView
@@ -31,32 +27,43 @@ CGRect const TIME_LEFT_LABEL_FRAME = {111, 63, 10, 21};
     
     if (self) {
         
-        self.timeLabel = [[UILabel alloc]init];
-        self.scoreLabel = [[UILabel alloc]init];
-        self.lifeLabel = [[UILabel alloc]init];
-        self.playerScoreLabel = [[UILabel alloc]init];
-        self.numberOfAttemptsLeftLabel = [[UILabel alloc]init];
-        self.timeLeftLabel = [[UILabel alloc]init];
+        UILabel *timeLabel = [[UILabel alloc]initWithFrame:TIME_LABEL_FRAME];
+        UILabel *scoreLabel = [[UILabel alloc]initWithFrame:SCORE_LABEL_FRAME];
+        UILabel *lifeLabel = [[UILabel alloc]initWithFrame:LIFE_LABEL_FRAME];
         
-        self.timeLabel.frame = TIME_LABEL_FRAME;
-        self.scoreLabel.frame = SCORE_LABEL_FRAME;
-        self.lifeLabel.frame = LIFE_LABEL_FRAME;
-        self.playerScoreLabel.frame = PLAYER_SCORE_LABEL_FRAME;
-        self.numberOfAttemptsLeftLabel.frame = ATTEMPTS_LEFT_LABEL_FRAME;
-        self.timeLeftLabel.frame = TIME_LEFT_LABEL_FRAME;
+        self.playerScoreLabel = [[[UILabel alloc]initWithFrame:PLAYER_SCORE_LABEL_FRAME] autorelease];
+        self.numberOfAttemptsLeftLabel = [[[UILabel alloc]initWithFrame:ATTEMPTS_LEFT_LABEL_FRAME] autorelease];
+        self.timeLeftLabel = [[[UILabel alloc]initWithFrame:TIME_LEFT_LABEL_FRAME] autorelease];
         
-        self.timeLabel.text = @"Time Left :";
-        self.scoreLabel.text = @"Score :";
-        self.lifeLabel.text = @"Life :";
+        timeLabel.text = @"Time Left :";
+        scoreLabel.text = @"Score :";
+        lifeLabel.text = @"Life :";
         
-        [self addSubview:self.timeLabel];
-        [self addSubview:self.scoreLabel];
-        [self addSubview:self.lifeLabel];
+        [self addSubview:timeLabel];
+        [self addSubview:scoreLabel];
+        [self addSubview:lifeLabel];
+        
         [self addSubview:self.playerScoreLabel];
         [self addSubview:self.numberOfAttemptsLeftLabel];
         [self addSubview:self.timeLeftLabel];
+        
+        [timeLabel release];
+        [scoreLabel release];
+        [lifeLabel release];
     }
     
     return self;
+}
+
+- (void)dealloc{
+
+    [_playerScoreLabel release];
+    _playerScoreLabel = nil;
+    [_numberOfAttemptsLeftLabel release];
+    _numberOfAttemptsLeftLabel = nil;
+    [_timeLeftLabel release];
+    _timeLeftLabel = nil;
+    
+    [super dealloc];
 }
 @end

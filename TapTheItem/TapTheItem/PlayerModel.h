@@ -12,6 +12,7 @@
 
 @property (nonatomic) int numberOfAttemptsLeft;
 @property (nonatomic) int playerScore;
+@property (nonatomic) int highScore;
 
 - (void)playerDidSelectCorrectAnswer;
 - (void)playerDidSelectWrongAnswer;

@@ -13,12 +13,9 @@
 - (instancetype)init{
 
     self = [super init];
-    
-    if (self) {
         
-        self.playerScore = 0;
-        self.numberOfAttemptsLeft = 3;
-    }
+    self.playerScore = 0;
+    self.numberOfAttemptsLeft = 3;
     
     return self;
 }
@@ -31,5 +28,10 @@
 - (void)playerDidSelectWrongAnswer{
 
     self.numberOfAttemptsLeft -= 1;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder{
+
+    
 }
 @end

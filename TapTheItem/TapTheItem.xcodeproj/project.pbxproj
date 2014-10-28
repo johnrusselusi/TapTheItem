@@ -24,12 +24,15 @@
 		1928135119F7A48000704CA9 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1928134F19F7A48000704CA9 /* ItemViewController.m */; };
 		1928135519F7A5F000704CA9 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1928135419F7A5F000704CA9 /* GameViewController.m */; };
 		19A54E7119F9E036007F8D24 /* PlayerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 19A54E7019F9E036007F8D24 /* PlayerModel.m */; };
-		19A54E7419F9E5ED007F8D24 /* GameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19A54E7319F9E5ED007F8D24 /* GameView.m */; };
 		19A54E7719F9FB84007F8D24 /* LevelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19A54E7619F9FB84007F8D24 /* LevelView.m */; };
 		19A54E7A19F9FCFA007F8D24 /* LevelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19A54E7919F9FCFA007F8D24 /* LevelViewController.m */; };
 		19A7E96F19F8A62200D6F94E /* RequiredItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 19A7E96E19F8A62200D6F94E /* RequiredItemView.m */; };
 		19A7E97219F8A64E00D6F94E /* RequiredItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19A7E97119F8A64E00D6F94E /* RequiredItemViewController.m */; };
 		19A7E97419F8A66500D6F94E /* Draft.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19A7E97319F8A66500D6F94E /* Draft.xib */; };
+		19AB638F19FDF204008CE2FE /* score.json in Resources */ = {isa = PBXBuildFile; fileRef = 19AB638E19FDF204008CE2FE /* score.json */; };
+		19AB639819FE2C91008CE2FE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AB639619FE2C91008CE2FE /* MainViewController.m */; };
+		19AB639919FE2C91008CE2FE /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19AB639719FE2C91008CE2FE /* MainViewController.xib */; };
+		19AB639B19FE3618008CE2FE /* frames.json in Resources */ = {isa = PBXBuildFile; fileRef = 19AB639A19FE3618008CE2FE /* frames.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,8 +71,6 @@
 		1928135419F7A5F000704CA9 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		19A54E6F19F9E036007F8D24 /* PlayerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerModel.h; sourceTree = "<group>"; };
 		19A54E7019F9E036007F8D24 /* PlayerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerModel.m; sourceTree = "<group>"; };
-		19A54E7219F9E5ED007F8D24 /* GameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameView.h; sourceTree = "<group>"; };
-		19A54E7319F9E5ED007F8D24 /* GameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameView.m; sourceTree = "<group>"; };
 		19A54E7519F9FB84007F8D24 /* LevelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelView.h; sourceTree = "<group>"; };
 		19A54E7619F9FB84007F8D24 /* LevelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelView.m; sourceTree = "<group>"; };
 		19A54E7819F9FCFA007F8D24 /* LevelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelViewController.h; sourceTree = "<group>"; };
@@ -79,6 +80,11 @@
 		19A7E97019F8A64E00D6F94E /* RequiredItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequiredItemViewController.h; sourceTree = "<group>"; };
 		19A7E97119F8A64E00D6F94E /* RequiredItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequiredItemViewController.m; sourceTree = "<group>"; };
 		19A7E97319F8A66500D6F94E /* Draft.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Draft.xib; sourceTree = "<group>"; };
+		19AB638E19FDF204008CE2FE /* score.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = score.json; sourceTree = "<group>"; };
+		19AB639519FE2C91008CE2FE /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		19AB639619FE2C91008CE2FE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		19AB639719FE2C91008CE2FE /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		19AB639A19FE3618008CE2FE /* frames.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = frames.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,13 +157,14 @@
 				1928135319F7A5F000704CA9 /* GameViewController.h */,
 				1928135419F7A5F000704CA9 /* GameViewController.m */,
 				19A54E7519F9FB84007F8D24 /* LevelView.h */,
+				19AB639519FE2C91008CE2FE /* MainViewController.h */,
+				19AB639619FE2C91008CE2FE /* MainViewController.m */,
+				19AB639719FE2C91008CE2FE /* MainViewController.xib */,
 				19A54E7619F9FB84007F8D24 /* LevelView.m */,
 				19A54E7819F9FCFA007F8D24 /* LevelViewController.h */,
 				19A54E7919F9FCFA007F8D24 /* LevelViewController.m */,
 				19A54E6F19F9E036007F8D24 /* PlayerModel.h */,
 				19A54E7019F9E036007F8D24 /* PlayerModel.m */,
-				19A54E7219F9E5ED007F8D24 /* GameView.h */,
-				19A54E7319F9E5ED007F8D24 /* GameView.m */,
 				19A7E97319F8A66500D6F94E /* Draft.xib */,
 				1928132C19F7A10100704CA9 /* Images.xcassets */,
 				1928132119F7A10100704CA9 /* Supporting Files */,
@@ -168,7 +175,9 @@
 		1928132119F7A10100704CA9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				19AB639A19FE3618008CE2FE /* frames.json */,
 				1928134C19F7A45300704CA9 /* items.json */,
+				19AB638E19FDF204008CE2FE /* score.json */,
 				1928132219F7A10100704CA9 /* TapTheItem-Info.plist */,
 				1928132319F7A10100704CA9 /* InfoPlist.strings */,
 				1928132619F7A10100704CA9 /* main.m */,
@@ -273,7 +282,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19AB639B19FE3618008CE2FE /* frames.json in Resources */,
 				1928132519F7A10100704CA9 /* InfoPlist.strings in Resources */,
+				19AB639919FE2C91008CE2FE /* MainViewController.xib in Resources */,
+				19AB638F19FDF204008CE2FE /* score.json in Resources */,
 				1928132D19F7A10100704CA9 /* Images.xcassets in Resources */,
 				1928134D19F7A45300704CA9 /* items.json in Resources */,
 				19A7E97419F8A66500D6F94E /* Draft.xib in Resources */,
@@ -295,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19AB639819FE2C91008CE2FE /* MainViewController.m in Sources */,
 				19A54E7119F9E036007F8D24 /* PlayerModel.m in Sources */,
 				19A7E96F19F8A62200D6F94E /* RequiredItemView.m in Sources */,
 				1928134B19F7A24200704CA9 /* ItemView.m in Sources */,
@@ -303,7 +316,6 @@
 				1928132B19F7A10100704CA9 /* AppDelegate.m in Sources */,
 				19A54E7719F9FB84007F8D24 /* LevelView.m in Sources */,
 				1928132719F7A10100704CA9 /* main.m in Sources */,
-				19A54E7419F9E5ED007F8D24 /* GameView.m in Sources */,
 				19A7E97219F8A64E00D6F94E /* RequiredItemViewController.m in Sources */,
 				1928135519F7A5F000704CA9 /* GameViewController.m in Sources */,
 			);
