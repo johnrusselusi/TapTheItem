@@ -7,9 +7,12 @@
 //
 
 #import "MainViewController.h"
-#import "GameViewController.h"
+#import "LevelViewController.h"
 
 @interface MainViewController ()
+
+@property (retain, nonatomic) IBOutlet UILabel *highScore;
+@property (retain, nonatomic) LevelViewController *levelViewController;
 
 @end
 
@@ -17,11 +20,24 @@
 
 - (IBAction)startButtonPressed:(id)sender {
     
-    GameViewController *gameView = [[GameViewController alloc]init];
+    self.levelViewController = [[[LevelViewController alloc]init] autorelease];
     
-    gameView.navigationController.navigationBarHidden = YES;
-    
-    [self.navigationController pushViewController:gameView animated:NO];
+    [self.navigationController pushViewController:self.levelViewController animated:NO];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+
+    [super viewWillAppear:animated];
+    
+    self.highScore.text = [NSString stringWithFormat:@"%d", self.levelViewController.highScore];
+}
+
+- (void)dealloc {
+    
+    [_levelViewController release];
+    _levelViewController = nil;
+    
+    [_highScore release];
+    [super dealloc];
+}
 @end

@@ -22,6 +22,7 @@ NSString *const JSON_PATH = @"score.json";
 NSString *const HIGHSCORE_KEY = @"highScore";
 NSString *const ALERTVIEW_TITLE = @"Game Over";
 NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
+NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Back to Main Menu";
 
 @interface LevelViewController () <ItemViewControllerDelegate, UIAlertViewDelegate, NSCoding>
 
@@ -60,8 +61,8 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
     self.itemView.delegate = self;
 
     [self.view addSubview:self.itemView.view];
-    self.requiredItem.selectionItems = [[NSMutableArray alloc]
-                                         initWithArray:self.itemView.availableItems];
+    self.requiredItem.selectionItems = [[[NSMutableArray alloc]
+                                         initWithArray:self.itemView.availableItems] autorelease];
     
     [self.view addSubview:self.requiredItem.view];
     
@@ -160,7 +161,7 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
                                                            message:[NSString stringWithFormat:@"Score :%d\nHigh Score :%d", self.player.playerScore, self.highScore]
                                                           delegate:self
                                                  cancelButtonTitle:nil
-                                                 otherButtonTitles:TRY_AGAIN_BUTTON_TITLE, nil];
+                                                 otherButtonTitles:TRY_AGAIN_BUTTON_TITLE,RETURN_TO_MAIN_MENU_BUTTON_TITLE,nil];
     
     [gameOverAlert show];
     
@@ -177,6 +178,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     if ([title isEqualToString:TRY_AGAIN_BUTTON_TITLE]) {
         
         [self removeCurrentItems];
+    } else if ([title isEqualToString:RETURN_TO_MAIN_MENU_BUTTON_TITLE]) {
+    
+        [self.navigationController popToRootViewControllerAnimated:NO];
     }
 }
 
