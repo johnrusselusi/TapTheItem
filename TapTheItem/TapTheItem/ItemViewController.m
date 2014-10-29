@@ -12,7 +12,7 @@
 
 @interface ItemViewController () <UIGestureRecognizerDelegate>
 
-@property (nonatomic) NSMutableArray *itemsSelection;
+@property (retain, nonatomic) NSMutableArray *itemsSelection;
 
 @end
 
@@ -71,7 +71,7 @@
     
     [self.itemsSelection removeObjectAtIndex:randomIndex];
     
-    ItemView *itemView = [[ItemView alloc]initWithFrame:CGRectFromString([frames objectAtIndex:count])];
+    ItemView *itemView = [[[ItemView alloc]initWithFrame:CGRectFromString([frames objectAtIndex:count])] autorelease];
     
     itemView.itemIdentifier = count;
     itemView.image = image;
@@ -93,9 +93,6 @@
 
     [_itemsSelection release];
     _itemsSelection = nil;
-    
-    [_delegate release];
-    _delegate = nil;
     
     [_availableItems release];
     _availableItems = nil;

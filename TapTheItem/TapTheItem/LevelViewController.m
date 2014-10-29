@@ -22,6 +22,7 @@ NSString *const JSON_PATH = @"score.json";
 NSString *const HIGHSCORE_KEY = @"highScore";
 NSString *const ALERTVIEW_TITLE = @"Game Over";
 NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
+NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 
 @interface LevelViewController () <ItemViewControllerDelegate, UIAlertViewDelegate, NSCoding>
 
@@ -29,6 +30,7 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
 @property (retain, nonatomic) ItemViewController *itemView;
 @property (retain, nonatomic) RequiredItemViewController *requiredItem;
 @property (retain, nonatomic) PlayerModel *player;
+@property (retain, nonatomic) CABasicAnimation *animation;
 
 @end
 
@@ -50,6 +52,13 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
     [self startNewLevel];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+
+    [super viewWillDisappear:animated];
+    
+    self.itemView.delegate = nil;
+}
+
 #pragma mark - Game Cycle
 
 - (void)startNewLevel{
@@ -60,8 +69,8 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
     self.itemView.delegate = self;
 
     [self.view addSubview:self.itemView.view];
-    self.requiredItem.selectionItems = [[NSMutableArray alloc]
-                                         initWithArray:self.itemView.availableItems];
+    self.requiredItem.selectionItems = [[[NSMutableArray alloc]
+                                         initWithArray:self.itemView.availableItems] autorelease];
     
     [self.view addSubview:self.requiredItem.view];
     
@@ -85,9 +94,7 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
 
 - (void)didSelectAnItem:(ItemView *)selectedItem{
     
-    ItemView *playerSelectedItem = selectedItem;
-    
-    [self compareSelectedItemAndRequiredItem:playerSelectedItem
+    [self compareSelectedItemAndRequiredItem:selectedItem
                                 requiredItem:self.requiredItem.selectedItem];
 }
 
@@ -111,6 +118,14 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
     } else {
         
         NSLog(@"Wrong");
+        
+        self.animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+        [self.animation setToValue:[NSNumber numberWithFloat:0.0f]];
+        [self.animation setFromValue:[NSNumber numberWithDouble:M_PI/16]];
+        [self.animation setDuration:0.1];
+        [self.animation setRepeatCount:3];
+        [self.animation setAutoreverses:YES];
+        [[selectedItem layer] addAnimation:self.animation forKey:@"iconShake"];
         
         if (self.player.numberOfAttemptsLeft > 0) {
             
@@ -160,7 +175,7 @@ NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
                                                            message:[NSString stringWithFormat:@"Score :%d\nHigh Score :%d", self.player.playerScore, self.highScore]
                                                           delegate:self
                                                  cancelButtonTitle:nil
-                                                 otherButtonTitles:TRY_AGAIN_BUTTON_TITLE, nil];
+                                                 otherButtonTitles:TRY_AGAIN_BUTTON_TITLE,RETURN_TO_MAIN_MENU_BUTTON_TITLE,nil];
     
     [gameOverAlert show];
     
@@ -177,6 +192,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     if ([title isEqualToString:TRY_AGAIN_BUTTON_TITLE]) {
         
         [self removeCurrentItems];
+    } else if ([title isEqualToString:RETURN_TO_MAIN_MENU_BUTTON_TITLE]) {
+    
+        [self.navigationController popToRootViewControllerAnimated:NO];
     }
 }
 
@@ -225,6 +243,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     [_levelTimer release];
     _levelTimer = nil;
 
+    [_animation release];
+    _animation = nil;
+    
     [super dealloc];
 }
 @end

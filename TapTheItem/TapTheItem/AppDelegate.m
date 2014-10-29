@@ -13,13 +13,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     
-    MainViewController *mvc = [[[MainViewController alloc]init] autorelease];
-    mvc.navigationController.navigationBarHidden = YES;
+    MainViewController *mainViewController = [[[MainViewController alloc]init] autorelease];
+    mainViewController.navigationController.navigationBarHidden = YES;
     UINavigationController *navigationController = [[[UINavigationController alloc]
-                                                     initWithRootViewController:mvc] autorelease];
+                                                     initWithRootViewController:mainViewController] autorelease];
     navigationController.navigationBarHidden = YES;
     self.window.rootViewController = navigationController;
     
