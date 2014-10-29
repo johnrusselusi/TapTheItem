@@ -10,9 +10,9 @@
 
 @interface PlayerModel : NSObject
 
-@property (nonatomic) int numberOfAttemptsLeft;
-@property (nonatomic) int playerScore;
-@property (nonatomic) int highScore;
+@property (assign, nonatomic) int numberOfAttemptsLeft;
+@property (assign, nonatomic) int playerScore;
+@property (assign, nonatomic) int highScore;
 
 - (void)playerDidSelectCorrectAnswer;
 - (void)playerDidSelectWrongAnswer;

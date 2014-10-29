@@ -29,7 +29,7 @@
 
     [super viewWillAppear:animated];
     
-    self.highScore.text = [NSString stringWithFormat:@"%d", self.levelViewController.highScore];
+    self.highScore.text = [NSString stringWithFormat:@"%ld", (long)self.levelViewController.highScore];
 }
 
 - (void)dealloc {

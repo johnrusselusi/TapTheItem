@@ -34,9 +34,9 @@
     
     self.itemsSelection = [NSMutableArray arrayWithArray:itemsName];
     
-    for (int i = 0; i < 9; i++) {
+    for (int itemCounter = 0; itemCounter < 9; itemCounter++) {
         
-        [self.availableItems addObject:[self generateRandomItems:i]];
+        [self.availableItems addObject:[self generateRandomItems:itemCounter]];
     }
     for (ItemView *items in self.availableItems) {
         

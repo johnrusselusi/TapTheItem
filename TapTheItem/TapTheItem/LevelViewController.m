@@ -74,14 +74,14 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
     [self.view addSubview:self.requiredItem.view];
     
     self.timeLeft = STARTING_TIME;
-    self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%d",
-                                         self.timeLeft];
+    self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%ld",
+                                         (long)self.timeLeft];
     
-    self.levelView.playerScoreLabel.text = [NSString stringWithFormat:@"%d",
-                                            self.player.playerScore];
+    self.levelView.playerScoreLabel.text = [NSString stringWithFormat:@"%ld",
+                                            (long)self.player.playerScore];
     
-    self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d",
-                                                     self.player.numberOfAttemptsLeft];
+    self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%ld",
+                                                     (long)self.player.numberOfAttemptsLeft];
     
     self.levelTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                        target:self
@@ -107,11 +107,11 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
         self.player.playerScore += self.player.numberOfAttemptsLeft;
         self.player.numberOfAttemptsLeft = 3;
         
-        self.levelView.playerScoreLabel.text = [NSString stringWithFormat:@"%d",
-                                                self.player.playerScore];
+        self.levelView.playerScoreLabel.text = [NSString stringWithFormat:@"%ld",
+                                                (long)self.player.playerScore];
         
-        self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d",
-                                                         self.player.numberOfAttemptsLeft];
+        self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%ld",
+                                                         (long)self.player.numberOfAttemptsLeft];
         
         [self removeCurrentItems];
     } else {
@@ -121,8 +121,8 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
         if (self.player.numberOfAttemptsLeft > 0) {
             
             self.player.numberOfAttemptsLeft -= 1;
-            self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%d",
-                                                             self.player.numberOfAttemptsLeft];
+            self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%ld",
+                                                             (long)self.player.numberOfAttemptsLeft];
         } else {
             [self.levelTimer invalidate];
             [self gameOver];
@@ -146,7 +146,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
     if (self.timeLeft > 0) {
         
         self.timeLeft--;
-        self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%d", self.timeLeft];
+        self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%ld", (long)self.timeLeft];
     } else {
         
         [self.levelTimer invalidate];
@@ -163,7 +163,8 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
     }
     
     UIAlertView *gameOverAlert = [[UIAlertView alloc]initWithTitle:ALERTVIEW_TITLE
-                                                           message:[NSString stringWithFormat:@"Score :%d\nHigh Score :%d", self.player.playerScore, self.highScore]
+                                                           message:[NSString stringWithFormat:@"Score :%ld\nHigh Score :%ld", (long)self.player.playerScore,
+                                                                    (long)self.highScore]
                                                           delegate:self
                                                  cancelButtonTitle:nil
                                                  otherButtonTitles:TRY_AGAIN_BUTTON_TITLE,RETURN_TO_MAIN_MENU_BUTTON_TITLE,nil];
