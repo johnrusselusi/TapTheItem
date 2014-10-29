@@ -11,9 +11,9 @@
 
 @interface LevelViewController : UIViewController
 
-@property (nonatomic) int timeLeft;
+@property (assign, nonatomic) NSInteger timeLeft;
 
 @property (retain, nonatomic) NSTimer *levelTimer;
-@property (nonatomic) int highScore;
+@property (assign, nonatomic) NSInteger highScore;
 
 @end

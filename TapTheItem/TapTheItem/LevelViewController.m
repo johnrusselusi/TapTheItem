@@ -189,6 +189,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     }
 }
 
+#pragma mark - Saving of High Score
+
 - (NSString *)filePath{
 
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,

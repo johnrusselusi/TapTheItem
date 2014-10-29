@@ -38,6 +38,8 @@
     _levelViewController = nil;
     
     [_highScore release];
+    _highScore = nil;
+    
     [super dealloc];
 }
 @end
