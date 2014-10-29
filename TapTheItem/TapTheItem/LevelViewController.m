@@ -30,7 +30,6 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 @property (retain, nonatomic) ItemViewController *itemView;
 @property (retain, nonatomic) RequiredItemViewController *requiredItem;
 @property (retain, nonatomic) PlayerModel *player;
-@property (retain, nonatomic) CABasicAnimation *animation;
 
 @end
 
@@ -118,14 +117,6 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
     } else {
         
         NSLog(@"Wrong");
-        
-        self.animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-        [self.animation setToValue:[NSNumber numberWithFloat:0.0f]];
-        [self.animation setFromValue:[NSNumber numberWithDouble:M_PI/16]];
-        [self.animation setDuration:0.1];
-        [self.animation setRepeatCount:3];
-        [self.animation setAutoreverses:YES];
-        [[selectedItem layer] addAnimation:self.animation forKey:@"iconShake"];
         
         if (self.player.numberOfAttemptsLeft > 0) {
             
@@ -242,9 +233,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     [_levelTimer release];
     _levelTimer = nil;
-
-    [_animation release];
-    _animation = nil;
     
     [super dealloc];
 }
