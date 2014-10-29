@@ -10,6 +10,8 @@
 #import "ItemViewController.h"
 #import "ItemView.h"
 
+int const MAX_NUMBER_OF_ITEMS = 9;
+
 @interface ItemViewController () <UIGestureRecognizerDelegate>
 
 @property (retain, nonatomic) NSMutableArray *itemsSelection;
@@ -34,7 +36,7 @@
     
     self.itemsSelection = [NSMutableArray arrayWithArray:itemsName];
     
-    for (int itemCounter = 0; itemCounter < 9; itemCounter++) {
+    for (int itemCounter = 0; itemCounter < MAX_NUMBER_OF_ITEMS; itemCounter++) {
         
         [self.availableItems addObject:[self generateRandomItems:itemCounter]];
     }
