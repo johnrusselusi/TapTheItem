@@ -10,6 +10,6 @@
 
 @interface ItemView : UIImageView
 
-@property (nonatomic) int itemIdentifier;
+@property (assign, nonatomic) BOOL isRequired;
 
 @end

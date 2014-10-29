@@ -20,18 +20,4 @@
     return self;
 }
 
-- (void)playerDidSelectCorrectAnswer{
-
-    self.playerScore += self.numberOfAttemptsLeft;
-}
-
-- (void)playerDidSelectWrongAnswer{
-
-    self.numberOfAttemptsLeft -= 1;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder{
-
-    
-}
 @end

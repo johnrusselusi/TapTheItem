@@ -6,15 +6,21 @@
 //  Copyright (c) 2014 Klab Cyscorpions Training Center. All rights reserved.
 //
 
-#import "RequiredItemView.h"
 #import "ItemViewController.h"
 #import "ItemView.h"
 
-int const MAX_NUMBER_OF_ITEMS = 9;
+NSInteger const MAX_NUMBER_OF_ITEMS = 9;
+
+NSString *const IMAGES_JSON = @"items";
+NSString *const FRAMES_JSON = @"frames";
+
+CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 @interface ItemViewController () <UIGestureRecognizerDelegate>
 
-@property (retain, nonatomic) NSMutableArray *itemsSelection;
+@property (retain, nonatomic) NSMutableArray *availableItems;
+@property (retain, nonatomic) NSMutableArray *itemNames;
+@property (retain, nonatomic) ItemView *required;
 
 @end
 
@@ -27,14 +33,7 @@ int const MAX_NUMBER_OF_ITEMS = 9;
     [super viewDidLoad];
     
     self.availableItems = [[NSMutableArray alloc]init];
-    
-    NSString *filepath = [[NSBundle mainBundle]pathForResource:@"items" ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:filepath];
-    NSArray *itemsName = [NSJSONSerialization JSONObjectWithData:data
-                                                          options:kNilOptions
-                                                            error:nil];
-    
-    self.itemsSelection = [NSMutableArray arrayWithArray:itemsName];
+    self.itemNames = [[NSMutableArray alloc]initWithArray:[self getDataFromJSONFile:IMAGES_JSON]];
     
     for (int itemCounter = 0; itemCounter < MAX_NUMBER_OF_ITEMS; itemCounter++) {
         
@@ -44,6 +43,8 @@ int const MAX_NUMBER_OF_ITEMS = 9;
         
         [self.view addSubview:items];
     }
+    
+    [self selectRequiredItemFromAvailableItems:self.availableItems];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -61,21 +62,16 @@ int const MAX_NUMBER_OF_ITEMS = 9;
 
 - (ItemView *)generateRandomItems:(int)count{
     
-    NSString *filepath = [[NSBundle mainBundle]pathForResource:@"frames" ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:filepath];
-    NSArray *frames = [NSJSONSerialization JSONObjectWithData:data
-                                                         options:kNilOptions
-                                                           error:nil];
+    NSArray *frames = [[NSArray alloc]initWithArray:[self getDataFromJSONFile:FRAMES_JSON]];
     
     int randomIndex = arc4random_uniform((uint32_t)MAX_NUMBER_OF_ITEMS);
     
-    UIImage *image = [UIImage imageNamed:[self.itemsSelection objectAtIndex:randomIndex]];
+    UIImage *image = [UIImage imageNamed:[self.itemNames objectAtIndex:randomIndex]];
     
-    [self.itemsSelection removeObjectAtIndex:randomIndex];
+    [self.itemNames removeObjectAtIndex:randomIndex];
     
     ItemView *itemView = [[[ItemView alloc]initWithFrame:CGRectFromString([frames objectAtIndex:count])] autorelease];
     
-    itemView.itemIdentifier = count;
     itemView.image = image; 
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]
@@ -83,21 +79,41 @@ int const MAX_NUMBER_OF_ITEMS = 9;
     
     [itemView addGestureRecognizer:tapGestureRecognizer];
     
+    [frames release];
+    
     return itemView;
 }
 
-- (void)itemViewTapped:(UITapGestureRecognizer *)gr{
+- (void)selectRequiredItemFromAvailableItems:(NSMutableArray *)availableItems{
+
+    int randomIndex = arc4random_uniform((uint32_t)MAX_NUMBER_OF_ITEMS);
     
-    [self.delegate didSelectAnItem:(ItemView *)gr.view];
+    UIImageView *requiredItemView = [[UIImageView alloc]initWithImage:((UIImageView *)[self.availableItems objectAtIndex:randomIndex]).image];
+    
+    ((ItemView *)[self.availableItems objectAtIndex:randomIndex]).isRequired = YES;
+    
+    requiredItemView.frame = REQUIRED_ITEMVIEW_FRAME;
+    
+    [self.view addSubview:requiredItemView];
+}
+
+- (void)itemViewTapped:(UITapGestureRecognizer *)gestureRecognizer{
+    
+    [self.delegate didSelectAnItem:(ItemView *)gestureRecognizer.view];
+}
+
+- (NSArray *)getDataFromJSONFile:(NSString *)JSONFileName{
+
+    NSString *filepath = [[NSBundle mainBundle]pathForResource:JSONFileName ofType:@"json"];
+    NSData *data = [NSData dataWithContentsOfFile:filepath];
+    NSMutableArray *JSONData = [NSJSONSerialization JSONObjectWithData:data
+                                                        options:kNilOptions
+                                                          error:nil];
+    
+    return JSONData;
 }
 
 -(void)dealloc{
-
-    [_itemsSelection release];
-    _itemsSelection = nil;
-    
-    [_availableItems release];
-    _availableItems = nil;
     
     [super dealloc];
 }

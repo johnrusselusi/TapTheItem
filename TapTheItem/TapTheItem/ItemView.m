@@ -17,6 +17,7 @@
     if (self) {
         
         self.userInteractionEnabled = YES;
+        self.isRequired = NO;
     }
     
     return self;
