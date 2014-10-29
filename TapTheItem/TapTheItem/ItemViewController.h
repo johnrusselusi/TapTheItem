@@ -17,7 +17,7 @@
 
 @interface ItemViewController : UIViewController
 
-@property (retain, nonatomic) id<ItemViewControllerDelegate>delegate;
+@property (assign, nonatomic) id<ItemViewControllerDelegate>delegate;
 @property (retain, nonatomic) NSMutableArray *availableItems;
 
 @end

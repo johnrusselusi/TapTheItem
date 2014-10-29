@@ -12,7 +12,7 @@
 
 @interface ItemViewController () <UIGestureRecognizerDelegate>
 
-@property (nonatomic) NSMutableArray *itemsSelection;
+@property (retain, nonatomic) NSMutableArray *itemsSelection;
 
 @end
 
@@ -93,9 +93,6 @@
 
     [_itemsSelection release];
     _itemsSelection = nil;
-    
-    [_delegate release];
-    _delegate = nil;
     
     [_availableItems release];
     _availableItems = nil;

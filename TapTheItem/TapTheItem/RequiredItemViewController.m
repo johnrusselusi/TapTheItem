@@ -25,7 +25,7 @@
 
     [super viewWillDisappear:animated];
     
-    self.selectedItem.image = [UIImage imageNamed:@""];
+    self.selectedItem.image = nil;
 }
 
 - (RequiredItemView *)generateRequiredItemFromSelectionItems:(NSArray *)selectionItems{
