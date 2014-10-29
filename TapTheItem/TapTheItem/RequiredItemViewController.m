@@ -11,6 +11,8 @@
 #import "ItemViewController.h"
 #import "ItemView.h"
 
+int const NUMBER_OF_ITEMS_AVAILABLE = 9;
+
 @implementation RequiredItemViewController
 
 #pragma mark - View Life Cycle
@@ -30,7 +32,7 @@
 
 - (RequiredItemView *)generateRequiredItemFromSelectionItems:(NSArray *)selectionItems{
 
-    int randomIndex = arc4random_uniform((uint32_t)[selectionItems count]);
+    int randomIndex = arc4random_uniform((uint32_t)NUMBER_OF_ITEMS_AVAILABLE);
     
     self.selectedItem = [[[RequiredItemView alloc]
                           initWithItemView:[selectionItems objectAtIndex:randomIndex]] autorelease];

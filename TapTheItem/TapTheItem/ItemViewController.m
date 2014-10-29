@@ -67,7 +67,7 @@ int const MAX_NUMBER_OF_ITEMS = 9;
                                                          options:kNilOptions
                                                            error:nil];
     
-    int randomIndex = arc4random_uniform((uint32_t)[self.itemsSelection count]);
+    int randomIndex = arc4random_uniform((uint32_t)MAX_NUMBER_OF_ITEMS);
     
     UIImage *image = [UIImage imageNamed:[self.itemsSelection objectAtIndex:randomIndex]];
     
@@ -76,7 +76,7 @@ int const MAX_NUMBER_OF_ITEMS = 9;
     ItemView *itemView = [[[ItemView alloc]initWithFrame:CGRectFromString([frames objectAtIndex:count])] autorelease];
     
     itemView.itemIdentifier = count;
-    itemView.image = image;
+    itemView.image = image; 
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]
                                                     initWithTarget:self action:@selector(itemViewTapped:)];
