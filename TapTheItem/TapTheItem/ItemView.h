@@ -11,5 +11,8 @@
 @interface ItemView : UIImageView
 
 @property (assign, nonatomic) BOOL isRequired;
+@property (assign, nonatomic) NSInteger itemIdentifier;
+
+- (instancetype)initwithSelectedItem:(ItemView *)selectedItem;
 
 @end

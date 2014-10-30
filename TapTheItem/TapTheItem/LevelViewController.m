@@ -37,6 +37,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 - (void)viewDidLoad{
 
     [super viewDidLoad];
+    
     [self readCurrentHighScore];
     
     self.player = [[[PlayerModel alloc]init] autorelease];
@@ -85,7 +86,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 
 - (void)didSelectAnItem:(ItemView *)selectedItem{
     
-    if (selectedItem.isRequired) {
+    if (selectedItem.itemIdentifier == self.itemView.requiredItem.itemIdentifier) {
         
         [self.levelTimer invalidate];
         self.player.playerScore += self.player.numberOfAttemptsLeft;

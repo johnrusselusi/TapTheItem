@@ -18,5 +18,6 @@
 @interface ItemViewController : UIViewController
 
 @property (assign, nonatomic) id<ItemViewControllerDelegate>delegate;
+@property (retain, nonatomic) ItemView *requiredItem;
 
 @end

@@ -20,7 +20,6 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 @property (retain, nonatomic) NSMutableArray *availableItems;
 @property (retain, nonatomic) NSMutableArray *itemNames;
-@property (retain, nonatomic) ItemView *required;
 
 @end
 
@@ -44,7 +43,12 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
         [self.view addSubview:items];
     }
     
-    [self selectRequiredItemFromAvailableItems:self.availableItems];
+    self.requiredItem = [[ItemView alloc]initwithSelectedItem:
+                         [self selectRequiredItemFromAvailableItems:self.availableItems]];
+    
+    self.requiredItem.frame = REQUIRED_ITEMVIEW_FRAME;
+    
+    [self.view addSubview:self.requiredItem];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -79,22 +83,21 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
     
     [itemView addGestureRecognizer:tapGestureRecognizer];
     
+    [tapGestureRecognizer release];
+    
+    itemView.itemIdentifier = count;
+    
     [frames release];
     
     return itemView;
 }
 
-- (void)selectRequiredItemFromAvailableItems:(NSMutableArray *)availableItems{
+- (ItemView *)selectRequiredItemFromAvailableItems:(NSMutableArray *)availableItems{
 
     int randomIndex = arc4random_uniform((uint32_t)MAX_NUMBER_OF_ITEMS);
     
-    UIImageView *requiredItemView = [[UIImageView alloc]initWithImage:((UIImageView *)[self.availableItems objectAtIndex:randomIndex]).image];
+    return (ItemView *)[self.availableItems objectAtIndex:randomIndex];
     
-    ((ItemView *)[self.availableItems objectAtIndex:randomIndex]).isRequired = YES;
-    
-    requiredItemView.frame = REQUIRED_ITEMVIEW_FRAME;
-    
-    [self.view addSubview:requiredItemView];
 }
 
 - (void)itemViewTapped:(UITapGestureRecognizer *)gestureRecognizer{
@@ -114,6 +117,8 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 }
 
 -(void)dealloc{
+    
+    self.requiredItem = nil;
     
     [super dealloc];
 }
