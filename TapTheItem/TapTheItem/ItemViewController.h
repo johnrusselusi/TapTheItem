@@ -20,4 +20,7 @@
 @property (assign, nonatomic) id<ItemViewControllerDelegate>delegate;
 @property (retain, nonatomic) ItemView *requiredItem;
 
+- (void)reloadNewItems;
+- (void)removeOldItems;
+
 @end

@@ -14,7 +14,7 @@
 
 NSInteger const STARTING_TIME = 5;
 NSInteger const STARTING_NUMBER_OF_ATTEMPTS = 3;
-int const STARTING_PLAYER_SCORE = 0;
+NSInteger const STARTING_PLAYER_SCORE = 0;
 
 NSString *const JSON_PATH = @"score.json";
 NSString *const HIGHSCORE_KEY = @"highScore";
@@ -25,7 +25,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 @interface LevelViewController () <ItemViewControllerDelegate, UIAlertViewDelegate>
 
 @property (retain, nonatomic) LevelView *levelView;
-@property (retain, nonatomic) ItemViewController *itemView;
+@property (retain, nonatomic) ItemViewController *itemViewController;
 @property (retain, nonatomic) PlayerModel *player;
 
 @end
@@ -46,25 +46,20 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
     
     [self setView:self.levelView];
     
-    [self startNewLevel];
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-
-    [super viewWillDisappear:animated];
+    self.itemViewController = [[[ItemViewController alloc]init] autorelease];
     
-    self.itemView.delegate = nil;
+    self.itemViewController.delegate = self;
+    
+    [self.view addSubview:self.itemViewController.view];
+    
+    [self startNewLevel];
 }
 
 #pragma mark - Game Cycle
 
 - (void)startNewLevel{
     
-    self.itemView = [[ItemViewController alloc]init];
-    
-    self.itemView.delegate = self;
-
-    [self.view addSubview:self.itemView.view];
+    [self.itemViewController reloadNewItems];
     
     self.timeLeft = STARTING_TIME;
     self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%ld",
@@ -81,12 +76,11 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
                                                      selector:@selector(updateTimer:)
                                                      userInfo:nil
                                                       repeats:YES];
-
 }
 
 - (void)didSelectAnItem:(ItemView *)selectedItem{
     
-    if (selectedItem.itemIdentifier == self.itemView.requiredItem.itemIdentifier) {
+    if (selectedItem.itemIdentifier == self.itemViewController.requiredItem.itemIdentifier) {
         
         [self.levelTimer invalidate];
         self.player.playerScore += self.player.numberOfAttemptsLeft;
@@ -98,7 +92,8 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
         self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%ld",
                                                          (long)self.player.numberOfAttemptsLeft];
         
-        [self removeCurrentItems];
+        [self.itemViewController removeOldItems];
+        [self startNewLevel];
 
     } else {
     
@@ -112,14 +107,6 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
             [self gameOver];
         }
     }
-}
-
-- (void)removeCurrentItems{
-    
-    [self.itemView viewWillDisappear:YES];
-    [self.itemView removeFromParentViewController];
-    
-    [self startNewLevel];
 }
 
 - (void)updateTimer:(NSTimer *)timer{
@@ -164,9 +151,12 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     if ([title isEqualToString:TRY_AGAIN_BUTTON_TITLE]) {
         
-        [self removeCurrentItems];
+        [self.itemViewController removeOldItems];
+        [self startNewLevel];
+        
     } else if ([title isEqualToString:RETURN_TO_MAIN_MENU_BUTTON_TITLE]) {
     
+        [self.itemViewController removeOldItems];
         [self.navigationController popToRootViewControllerAnimated:NO];
     }
 }
@@ -202,9 +192,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
 }
 
 - (void)dealloc{
-
+    
     self.levelView = nil;
-    self.itemView = nil;
+    self.itemViewController = nil;
     self.player = nil;
     self.levelTimer = nil;
     

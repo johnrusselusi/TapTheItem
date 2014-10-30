@@ -12,6 +12,5 @@
 
 @property (assign, nonatomic) int numberOfAttemptsLeft;
 @property (assign, nonatomic) int playerScore;
-@property (assign, nonatomic) int highScore;
 
 @end

@@ -20,19 +20,37 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 @property (retain, nonatomic) NSMutableArray *availableItems;
 @property (retain, nonatomic) NSMutableArray *itemNames;
+@property (retain, nonatomic) NSArray *itemFrames;
 
 @end
 
 @implementation ItemViewController
 
-#pragma mark - View Life Cycle
+#pragma mark - Initialize Arrays from JSON
 
--(void)viewDidLoad{
+- (void)initializeArrays{
+
+    self.availableItems = [[[NSMutableArray alloc]init] autorelease];
+    self.itemNames = [[[NSMutableArray alloc]initWithArray:[self getDataFromJSONFile:IMAGES_JSON]] autorelease];
+    self.itemFrames = [[[NSArray alloc]initWithArray:[self getDataFromJSONFile:FRAMES_JSON]] autorelease];
+}
+
+- (NSArray *)getDataFromJSONFile:(NSString *)JSONFileName{
     
-    [super viewDidLoad];
+    NSString *filepath = [[NSBundle mainBundle]pathForResource:JSONFileName ofType:@"json"];
+    NSData *data = [NSData dataWithContentsOfFile:filepath];
+    NSMutableArray *JSONData = [NSJSONSerialization JSONObjectWithData:data
+                                                               options:kNilOptions
+                                                                 error:nil];
     
-    self.availableItems = [[NSMutableArray alloc]init];
-    self.itemNames = [[NSMutableArray alloc]initWithArray:[self getDataFromJSONFile:IMAGES_JSON]];
+    return JSONData;
+}
+
+#pragma mark - ItemViewController Cycle
+
+- (void)reloadNewItems{
+    
+    [self initializeArrays];
     
     for (int itemCounter = 0; itemCounter < MAX_NUMBER_OF_ITEMS; itemCounter++) {
         
@@ -43,22 +61,19 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
         [self.view addSubview:items];
     }
     
-    self.requiredItem = [[ItemView alloc]initwithSelectedItem:
-                         [self selectRequiredItemFromAvailableItems:self.availableItems]];
+    self.requiredItem = [[[ItemView alloc]initwithSelectedItem:
+                         [self selectRequiredItemFromAvailableItems:self.availableItems]] autorelease];
     
     self.requiredItem.frame = REQUIRED_ITEMVIEW_FRAME;
     
     [self.view addSubview:self.requiredItem];
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
+- (void)removeOldItems{
 
-    [super viewWillDisappear:animated];
-    
-    for (ItemView *itemView in self.view.subviews) {
+    for (ItemView *item in self.view.subviews) {
         
-        itemView.image = nil;
-        [itemView release];
+        [item removeFromSuperview];
     }
 }
 
@@ -66,15 +81,13 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 - (ItemView *)generateRandomItems:(int)count{
     
-    NSArray *frames = [[NSArray alloc]initWithArray:[self getDataFromJSONFile:FRAMES_JSON]];
-    
     int randomIndex = arc4random_uniform((uint32_t)MAX_NUMBER_OF_ITEMS);
     
     UIImage *image = [UIImage imageNamed:[self.itemNames objectAtIndex:randomIndex]];
     
     [self.itemNames removeObjectAtIndex:randomIndex];
     
-    ItemView *itemView = [[[ItemView alloc]initWithFrame:CGRectFromString([frames objectAtIndex:count])] autorelease];
+    ItemView *itemView = [[[ItemView alloc]initWithFrame:CGRectFromString([self.itemFrames objectAtIndex:count])] autorelease];
     
     itemView.image = image; 
     
@@ -86,8 +99,6 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
     [tapGestureRecognizer release];
     
     itemView.itemIdentifier = count;
-    
-    [frames release];
     
     return itemView;
 }
@@ -105,20 +116,12 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
     [self.delegate didSelectAnItem:(ItemView *)gestureRecognizer.view];
 }
 
-- (NSArray *)getDataFromJSONFile:(NSString *)JSONFileName{
-
-    NSString *filepath = [[NSBundle mainBundle]pathForResource:JSONFileName ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:filepath];
-    NSMutableArray *JSONData = [NSJSONSerialization JSONObjectWithData:data
-                                                        options:kNilOptions
-                                                          error:nil];
-    
-    return JSONData;
-}
-
 -(void)dealloc{
     
+    self.itemFrames = nil;
     self.requiredItem = nil;
+    self.availableItems = nil;
+    self.itemNames = nil;
     
     [super dealloc];
 }
