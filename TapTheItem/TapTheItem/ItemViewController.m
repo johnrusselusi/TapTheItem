@@ -153,6 +153,7 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
     self.itemFrames = nil;
     self.requiredItem = nil;
     self.availableItems = nil;
+    self.itemNames = nil;
 
     [super dealloc];
 }
