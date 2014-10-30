@@ -26,17 +26,30 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 @implementation ItemViewController
 
+- (instancetype)init{
+
+    self = [super init];
+    
+    if (self) {
+        
+        [self initializeArrays];
+    }
+    
+    return self;
+}
+
 #pragma mark - Initialize Arrays from JSON
 
 - (void)initializeArrays{
 
+    //  Initialize arrays for the availableItems and itemFrames array
     self.availableItems = [[[NSMutableArray alloc]init] autorelease];
-    self.itemNames = [[[NSMutableArray alloc]initWithArray:[self getDataFromJSONFile:IMAGES_JSON]] autorelease];
     self.itemFrames = [[[NSArray alloc]initWithArray:[self getDataFromJSONFile:FRAMES_JSON]] autorelease];
 }
 
 - (NSArray *)getDataFromJSONFile:(NSString *)JSONFileName{
     
+    //  Method for accessing data from a JSON file
     NSString *filepath = [[NSBundle mainBundle]pathForResource:JSONFileName ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:filepath];
     NSMutableArray *JSONData = [NSJSONSerialization JSONObjectWithData:data
@@ -50,27 +63,37 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 - (void)reloadNewItems{
     
-    [self initializeArrays];
     
+    //  Get the file names of the images stored in images.json
+    self.itemNames = [[[NSMutableArray alloc]initWithArray:[self getDataFromJSONFile:IMAGES_JSON]] autorelease];
+    
+    //  Store random generated items into availableItems array
     for (int itemCounter = 0; itemCounter < MAX_NUMBER_OF_ITEMS; itemCounter++) {
         
         [self.availableItems addObject:[self generateRandomItems:itemCounter]];
     }
+    
+    //  Add every items as subview of the ItemViewController
     for (ItemView *items in self.availableItems) {
         
         [self.view addSubview:items];
     }
     
+    //  Generate a required item from the availableItems array
     self.requiredItem = [[[ItemView alloc]initwithSelectedItem:
-                         [self selectRequiredItemFromAvailableItems:self.availableItems]] autorelease];
+                         [self selectRequiredItemFromAvailableItems]] autorelease];
     
+    //  Add the generated requiredItem as subview of the ItemViewController
     self.requiredItem.frame = REQUIRED_ITEMVIEW_FRAME;
     
     [self.view addSubview:self.requiredItem];
 }
 
 - (void)removeOldItems{
-
+    
+    //  Remove all generated items from previous level
+    [self.availableItems removeAllObjects];
+    
     for (ItemView *item in self.view.subviews) {
         
         [item removeFromSuperview];
@@ -81,16 +104,20 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 - (ItemView *)generateRandomItems:(int)count{
     
-    int randomIndex = arc4random_uniform((uint32_t)MAX_NUMBER_OF_ITEMS);
+    //  Get a randomIndex
+    NSInteger randomIndex = [self generateRandomNumber];
     
+    //  Create an image from the itemNames array
     UIImage *image = [UIImage imageNamed:[self.itemNames objectAtIndex:randomIndex]];
     
     [self.itemNames removeObjectAtIndex:randomIndex];
     
+    //  Create an itemView instance with frames from the itemFrames array
     ItemView *itemView = [[[ItemView alloc]initWithFrame:CGRectFromString([self.itemFrames objectAtIndex:count])] autorelease];
     
-    itemView.image = image; 
+    itemView.image = image;
     
+    //  Add a gesture recognizer for the itemView
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]
                                                     initWithTarget:self action:@selector(itemViewTapped:)];
     
@@ -98,22 +125,29 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
     
     [tapGestureRecognizer release];
     
+    //  Set the itemIdentifier of the itemView
     itemView.itemIdentifier = count;
     
     return itemView;
 }
 
-- (ItemView *)selectRequiredItemFromAvailableItems:(NSMutableArray *)availableItems{
-
-    int randomIndex = arc4random_uniform((uint32_t)MAX_NUMBER_OF_ITEMS);
+- (ItemView *)selectRequiredItemFromAvailableItems{
     
-    return (ItemView *)[self.availableItems objectAtIndex:randomIndex];
-    
+    //  Return a random itemView from the availableItems array
+    return (ItemView *)[self.availableItems objectAtIndex:[self generateRandomNumber]];
 }
 
 - (void)itemViewTapped:(UITapGestureRecognizer *)gestureRecognizer{
     
+    //  Event when an item is tapped by the user
     [self.delegate didSelectAnItem:(ItemView *)gestureRecognizer.view];
+}
+
+- (NSInteger)generateRandomNumber{
+
+    NSInteger randomIndex = arc4random_uniform((uint32_t)MAX_NUMBER_OF_ITEMS);
+    
+    return randomIndex;
 }
 
 -(void)dealloc{

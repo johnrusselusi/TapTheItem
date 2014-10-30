@@ -59,6 +59,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 
 - (void)startNewLevel{
     
+    //  Method for updating the views every level
     [self.itemViewController reloadNewItems];
     
     self.timeLeft = STARTING_TIME;
@@ -80,8 +81,10 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 
 - (void)didSelectAnItem:(ItemView *)selectedItem{
     
+    //  Compare if the identifier of the tapped item is equivalent to the identifier of the required item
     if (selectedItem.itemIdentifier == self.itemViewController.requiredItem.itemIdentifier) {
         
+        //  Stop the timer and update score
         [self.levelTimer invalidate];
         self.player.playerScore += self.player.numberOfAttemptsLeft;
         self.player.numberOfAttemptsLeft = 3;
@@ -97,12 +100,15 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 
     } else {
     
+        //  Check if the player still has chances left
         if (self.player.numberOfAttemptsLeft > 0) {
             
+            //  Decrease the number of chances left of the player
             self.player.numberOfAttemptsLeft -= 1;
             self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%ld",
                                                              (long)self.player.numberOfAttemptsLeft];
         } else {
+            
             [self.levelTimer invalidate];
             [self gameOver];
         }
@@ -130,6 +136,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
         [self writeNewHighScore:self.highScore];
     }
     
+    //  Alerview to notify the player that the game is over
     UIAlertView *gameOverAlert = [[UIAlertView alloc]initWithTitle:ALERTVIEW_TITLE
                                                            message:[NSString stringWithFormat:@"Score :%ld\nHigh Score :%ld", (long)self.player.playerScore,
                                                                     (long)self.highScore]
@@ -138,15 +145,15 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
                                                  otherButtonTitles:TRY_AGAIN_BUTTON_TITLE,RETURN_TO_MAIN_MENU_BUTTON_TITLE,nil];
     
     [gameOverAlert show];
-    
+    [gameOverAlert release];
     self.player.playerScore = STARTING_PLAYER_SCORE;
     self.player.numberOfAttemptsLeft = STARTING_NUMBER_OF_ATTEMPTS;
-    
 }
 
 - (void)alertView:(UIAlertView *)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex{
 
+    //  gameOver alert view button responders
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     
     if ([title isEqualToString:TRY_AGAIN_BUTTON_TITLE]) {
@@ -165,6 +172,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
 
 - (NSString *)filePath{
 
+    //  Method for getting the filepath
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                          NSUserDomainMask,
                                                          YES);
@@ -175,12 +183,14 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
 
 - (void)readCurrentHighScore{
     
+    //  Method for reading the stored highscore
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
     self.highScore = [[dictionary valueForKey:HIGHSCORE_KEY] intValue];
 }
 
 - (void)writeNewHighScore:(NSInteger)score{
     
+    //  Method for storing a new highscore
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInteger:score]
                                                                          forKey:HIGHSCORE_KEY];
     
