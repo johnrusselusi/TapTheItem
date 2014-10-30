@@ -8,15 +8,13 @@
 
 #import "LevelViewController.h"
 #import "ItemViewController.h"
-#import "RequiredItemViewController.h"
 #import "LevelView.h"
 #import "ItemView.h"
-#import "RequiredItemView.h"
 #import "PlayerModel.h"
 
-int const STARTING_TIME = 5;
-int const STARTING_NUMBER_OF_ATTEMPTS = 3;
-int const STARTING_PLAYER_SCORE = 0;
+NSInteger const STARTING_TIME = 5;
+NSInteger const STARTING_NUMBER_OF_ATTEMPTS = 3;
+NSInteger const STARTING_PLAYER_SCORE = 0;
 
 NSString *const JSON_PATH = @"score.json";
 NSString *const HIGHSCORE_KEY = @"highScore";
@@ -24,11 +22,10 @@ NSString *const ALERTVIEW_TITLE = @"Game Over";
 NSString *const TRY_AGAIN_BUTTON_TITLE = @"Try Again";
 NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 
-@interface LevelViewController () <ItemViewControllerDelegate, UIAlertViewDelegate, NSCoding>
+@interface LevelViewController () <ItemViewControllerDelegate, UIAlertViewDelegate>
 
 @property (retain, nonatomic) LevelView *levelView;
-@property (retain, nonatomic) ItemViewController *itemView;
-@property (retain, nonatomic) RequiredItemViewController *requiredItem;
+@property (retain, nonatomic) ItemViewController *itemViewController;
 @property (retain, nonatomic) PlayerModel *player;
 
 @end
@@ -40,6 +37,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 - (void)viewDidLoad{
 
     [super viewDidLoad];
+    
     [self readCurrentHighScore];
     
     self.player = [[[PlayerModel alloc]init] autorelease];
@@ -48,30 +46,21 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
     
     [self setView:self.levelView];
     
-    [self startNewLevel];
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-
-    [super viewWillDisappear:animated];
+    self.itemViewController = [[[ItemViewController alloc]init] autorelease];
     
-    self.itemView.delegate = nil;
+    self.itemViewController.delegate = self;
+    
+    [self.view addSubview:self.itemViewController.view];
+    
+    [self startNewLevel];
 }
 
 #pragma mark - Game Cycle
 
 - (void)startNewLevel{
     
-    self.itemView = [[ItemViewController alloc]init];
-    self.requiredItem = [[[RequiredItemViewController alloc]init] autorelease];
-    
-    self.itemView.delegate = self;
-
-    [self.view addSubview:self.itemView.view];
-    self.requiredItem.selectionItems = [[[NSMutableArray alloc]
-                                         initWithArray:self.itemView.availableItems] autorelease];
-    
-    [self.view addSubview:self.requiredItem.view];
+    //  Method for updating the views every level
+    [self.itemViewController reloadNewItems];
     
     self.timeLeft = STARTING_TIME;
     self.levelView.timeLeftLabel.text = [NSString stringWithFormat:@"%ld",
@@ -88,21 +77,14 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
                                                      selector:@selector(updateTimer:)
                                                      userInfo:nil
                                                       repeats:YES];
-
 }
 
 - (void)didSelectAnItem:(ItemView *)selectedItem{
     
-    [self compareSelectedItemAndRequiredItem:selectedItem
-                                requiredItem:self.requiredItem.selectedItem];
-}
-
-- (void)compareSelectedItemAndRequiredItem:(ItemView *)selectedItem
-                              requiredItem:(RequiredItemView *)requiredItem{
-    
-    if (selectedItem.itemIdentifier == requiredItem.itemIdentifier) {
+    //  Compare if the identifier of the tapped item is equivalent to the identifier of the required item
+    if (selectedItem.itemIdentifier == self.itemViewController.requiredItem.itemIdentifier) {
         
-        NSLog(@"Correct");
+        //  Stop the timer and update score
         [self.levelTimer invalidate];
         self.player.playerScore += self.player.numberOfAttemptsLeft;
         self.player.numberOfAttemptsLeft = 3;
@@ -113,32 +95,24 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
         self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%ld",
                                                          (long)self.player.numberOfAttemptsLeft];
         
-        [self removeCurrentItems];
+        [self.itemViewController removeOldItems];
+        [self startNewLevel];
+
     } else {
-        
-        NSLog(@"Wrong");
-        
+    
+        //  Check if the player still has chances left
         if (self.player.numberOfAttemptsLeft > 0) {
             
+            //  Decrease the number of chances left of the player
             self.player.numberOfAttemptsLeft -= 1;
             self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%ld",
                                                              (long)self.player.numberOfAttemptsLeft];
         } else {
+            
             [self.levelTimer invalidate];
             [self gameOver];
         }
     }
-}
-
-- (void)removeCurrentItems{
-    
-    [self.itemView viewWillDisappear:YES];
-    [self.itemView removeFromParentViewController];
-    
-    [self.requiredItem viewWillDisappear:YES];
-    [self.requiredItem removeFromParentViewController];
-    
-    [self startNewLevel];
 }
 
 - (void)updateTimer:(NSTimer *)timer{
@@ -162,6 +136,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
         [self writeNewHighScore:self.highScore];
     }
     
+    //  Alerview to notify the player that the game is over
     UIAlertView *gameOverAlert = [[UIAlertView alloc]initWithTitle:ALERTVIEW_TITLE
                                                            message:[NSString stringWithFormat:@"Score :%ld\nHigh Score :%ld", (long)self.player.playerScore,
                                                                     (long)self.highScore]
@@ -170,22 +145,25 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
                                                  otherButtonTitles:TRY_AGAIN_BUTTON_TITLE,RETURN_TO_MAIN_MENU_BUTTON_TITLE,nil];
     
     [gameOverAlert show];
-    
+    [gameOverAlert release];
     self.player.playerScore = STARTING_PLAYER_SCORE;
     self.player.numberOfAttemptsLeft = STARTING_NUMBER_OF_ATTEMPTS;
-    
 }
 
 - (void)alertView:(UIAlertView *)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex{
 
+    //  gameOver alert view button responders
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     
     if ([title isEqualToString:TRY_AGAIN_BUTTON_TITLE]) {
         
-        [self removeCurrentItems];
+        [self.itemViewController removeOldItems];
+        [self startNewLevel];
+        
     } else if ([title isEqualToString:RETURN_TO_MAIN_MENU_BUTTON_TITLE]) {
     
+        [self.itemViewController removeOldItems];
         [self.navigationController popToRootViewControllerAnimated:NO];
     }
 }
@@ -194,6 +172,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
 
 - (NSString *)filePath{
 
+    //  Method for getting the filepath
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                          NSUserDomainMask,
                                                          YES);
@@ -204,13 +183,15 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
 
 - (void)readCurrentHighScore{
     
+    //  Method for reading the stored highscore
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
     self.highScore = [[dictionary valueForKey:HIGHSCORE_KEY] intValue];
 }
 
-- (void)writeNewHighScore:(int)score{
+- (void)writeNewHighScore:(NSInteger)score{
     
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInt:score]
+    //  Method for storing a new highscore
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInteger:score]
                                                                          forKey:HIGHSCORE_KEY];
     
     [[NSString stringWithFormat:@"%@",dictionary] writeToFile:[self filePath]
@@ -221,21 +202,11 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
 }
 
 - (void)dealloc{
-
-    [_levelView release];
-    _levelView = nil;
     
-    [_itemView release];
-    _itemView = nil;
-    
-    [_requiredItem release];
-    _requiredItem = nil;
-    
-    [_player release];
-    _player = nil;
-    
-    [_levelTimer release];
-    _levelTimer = nil;
+    self.levelView = nil;
+    self.itemViewController = nil;
+    self.player = nil;
+    self.levelTimer = nil;
     
     [super dealloc];
 }

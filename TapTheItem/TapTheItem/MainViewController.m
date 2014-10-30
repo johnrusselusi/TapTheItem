@@ -34,11 +34,8 @@
 
 - (void)dealloc {
     
-    [_levelViewController release];
-    _levelViewController = nil;
-    
-    [_highScore release];
-    _highScore = nil;
+    self.levelViewController = nil;
+    self.highScore = nil;
     
     [super dealloc];
 }

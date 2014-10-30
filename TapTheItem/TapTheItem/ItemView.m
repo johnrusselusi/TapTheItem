@@ -17,9 +17,22 @@
     if (self) {
         
         self.userInteractionEnabled = YES;
+        self.isRequired = NO;
     }
     
     return self;
 }
 
+- (instancetype)initwithSelectedItem:(ItemView *)selectedItem{
+
+    self = [super init];
+    
+    if (self) {
+        
+        self.itemIdentifier = selectedItem.itemIdentifier;
+        self.image = selectedItem.image;
+    }
+    
+    return self;
+}
 @end

@@ -8,12 +8,16 @@
 
 #import "LevelView.h"
 
-CGRect const SCORE_LABEL_FRAME = {20, 236, 60, 21};
-CGRect const LIFE_LABEL_FRAME = {20, 265, 40, 21};
+CGRect const SCORE_LABEL_FRAME = {20, 236, 80, 21};
+CGRect const LIFE_LABEL_FRAME = {20, 265, 80, 21};
 CGRect const TIME_LABEL_FRAME = {20, 63, 83, 21};
-CGRect const PLAYER_SCORE_LABEL_FRAME = {81, 236, 114, 21};
-CGRect const ATTEMPTS_LEFT_LABEL_FRAME = {81, 265, 131, 21};
+CGRect const PLAYER_SCORE_LABEL_FRAME = {100, 236, 114, 21};
+CGRect const ATTEMPTS_LEFT_LABEL_FRAME = {100, 265, 131, 21};
 CGRect const TIME_LEFT_LABEL_FRAME = {111, 63, 10, 21};
+
+NSString *const TIME_LABEL_TEXT = @"Time Left :";
+NSString *const SCORE_LABEL_TEXT = @"Score :";
+NSString *const LIFE_LABEL_TEXT = @"Chance :";
 
 @interface LevelView ()
 
@@ -35,9 +39,9 @@ CGRect const TIME_LEFT_LABEL_FRAME = {111, 63, 10, 21};
         self.numberOfAttemptsLeftLabel = [[[UILabel alloc]initWithFrame:ATTEMPTS_LEFT_LABEL_FRAME] autorelease];
         self.timeLeftLabel = [[[UILabel alloc]initWithFrame:TIME_LEFT_LABEL_FRAME] autorelease];
         
-        timeLabel.text = @"Time Left :";
-        scoreLabel.text = @"Score :";
-        lifeLabel.text = @"Life :";
+        timeLabel.text = TIME_LABEL_TEXT;
+        scoreLabel.text = SCORE_LABEL_TEXT;
+        lifeLabel.text = LIFE_LABEL_TEXT;
         
         [self addSubview:timeLabel];
         [self addSubview:scoreLabel];
@@ -57,12 +61,9 @@ CGRect const TIME_LEFT_LABEL_FRAME = {111, 63, 10, 21};
 
 - (void)dealloc{
 
-    [_playerScoreLabel release];
-    _playerScoreLabel = nil;
-    [_numberOfAttemptsLeftLabel release];
-    _numberOfAttemptsLeftLabel = nil;
-    [_timeLeftLabel release];
-    _timeLeftLabel = nil;
+    self.playerScoreLabel = nil;
+    self.numberOfAttemptsLeftLabel = nil;
+    self.timeLeftLabel = nil;
     
     [super dealloc];
 }

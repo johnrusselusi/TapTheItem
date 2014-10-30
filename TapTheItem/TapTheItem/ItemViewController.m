@@ -6,54 +6,95 @@
 //  Copyright (c) 2014 Klab Cyscorpions Training Center. All rights reserved.
 //
 
-#import "RequiredItemView.h"
 #import "ItemViewController.h"
 #import "ItemView.h"
 
-int const MAX_NUMBER_OF_ITEMS = 9;
+NSInteger const MAX_NUMBER_OF_ITEMS = 9;
+
+NSString *const IMAGES_JSON = @"items";
+NSString *const FRAMES_JSON = @"frames";
+
+CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 @interface ItemViewController () <UIGestureRecognizerDelegate>
 
-@property (retain, nonatomic) NSMutableArray *itemsSelection;
+@property (retain, nonatomic) NSMutableArray *availableItems;
+@property (retain, nonatomic) NSArray *itemFrames;
+@property (retain, nonatomic) NSMutableArray *itemNames;
 
 @end
 
 @implementation ItemViewController
 
-#pragma mark - View Life Cycle
+- (instancetype)init{
 
--(void)viewDidLoad{
+    self = [super init];
     
-    [super viewDidLoad];
+    if (self) {
+        
+        [self initializeArrays];
+    }
     
-    self.availableItems = [[NSMutableArray alloc]init];
+    return self;
+}
+
+#pragma mark - Initialize Arrays from JSON
+
+- (void)initializeArrays{
+
+    //  Initialize arrays for the availableItems and itemFrames array
+    self.availableItems = [[[NSMutableArray alloc]init] autorelease];
+    self.itemFrames = [[[NSArray alloc]initWithArray:[self getDataFromJSONFile:FRAMES_JSON]] autorelease];
+}
+
+- (NSArray *)getDataFromJSONFile:(NSString *)JSONFileName{
     
-    NSString *filepath = [[NSBundle mainBundle]pathForResource:@"items" ofType:@"json"];
+    //  Method for accessing data from a JSON file
+    NSString *filepath = [[NSBundle mainBundle]pathForResource:JSONFileName ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:filepath];
-    NSArray *itemsName = [NSJSONSerialization JSONObjectWithData:data
-                                                          options:kNilOptions
-                                                            error:nil];
+    NSMutableArray *JSONData = [NSJSONSerialization JSONObjectWithData:data
+                                                               options:kNilOptions
+                                                                 error:nil];
     
-    self.itemsSelection = [NSMutableArray arrayWithArray:itemsName];
+    return JSONData;
+}
+
+#pragma mark - ItemViewController Cycle
+
+- (void)reloadNewItems{
     
+    self.itemNames = [NSMutableArray arrayWithArray:[self getDataFromJSONFile:IMAGES_JSON]];
+    
+    //  Store random generated items into availableItems array
     for (int itemCounter = 0; itemCounter < MAX_NUMBER_OF_ITEMS; itemCounter++) {
         
         [self.availableItems addObject:[self generateRandomItems:itemCounter]];
     }
+    
+    //  Add every items as subview of the ItemViewController
     for (ItemView *items in self.availableItems) {
         
         [self.view addSubview:items];
     }
+    
+    //  Generate a required item from the availableItems array
+    self.requiredItem = [[[ItemView alloc]initwithSelectedItem:
+                         [self selectRequiredItemFromAvailableItems]] autorelease];
+    
+    //  Add the generated requiredItem as subview of the ItemViewController
+    self.requiredItem.frame = REQUIRED_ITEMVIEW_FRAME;
+    
+    [self.view addSubview:self.requiredItem];
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
-
-    [super viewWillDisappear:animated];
+- (void)removeOldItems{
     
-    for (ItemView *itemView in self.view.subviews) {
+    //  Remove all generated items from previous level
+    [self.availableItems removeAllObjects];
+    
+    for (ItemView *item in self.view.subviews) {
         
-        itemView.image = nil;
-        [itemView release];
+        [item removeFromSuperview];
     }
 }
 
@@ -61,44 +102,58 @@ int const MAX_NUMBER_OF_ITEMS = 9;
 
 - (ItemView *)generateRandomItems:(int)count{
     
-    NSString *filepath = [[NSBundle mainBundle]pathForResource:@"frames" ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:filepath];
-    NSArray *frames = [NSJSONSerialization JSONObjectWithData:data
-                                                         options:kNilOptions
-                                                           error:nil];
+    //  Get a randomIndex
+    NSInteger randomIndex = [self generateRandomNumber];
     
-    int randomIndex = arc4random_uniform((uint32_t)MAX_NUMBER_OF_ITEMS);
+    //  Create an image from the itemNames array
+    UIImage *image = [UIImage imageNamed:[self.itemNames objectAtIndex:randomIndex]];
     
-    UIImage *image = [UIImage imageNamed:[self.itemsSelection objectAtIndex:randomIndex]];
+    [self.itemNames removeObjectAtIndex:randomIndex];
     
-    [self.itemsSelection removeObjectAtIndex:randomIndex];
+    //  Create an itemView instance with frames from the itemFrames array
+    ItemView *itemView = [[[ItemView alloc]initWithFrame:CGRectFromString([self.itemFrames objectAtIndex:count])] autorelease];
     
-    ItemView *itemView = [[[ItemView alloc]initWithFrame:CGRectFromString([frames objectAtIndex:count])] autorelease];
+    itemView.image = image;
     
-    itemView.itemIdentifier = count;
-    itemView.image = image; 
-    
+    //  Add a gesture recognizer for the itemView
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]
                                                     initWithTarget:self action:@selector(itemViewTapped:)];
     
     [itemView addGestureRecognizer:tapGestureRecognizer];
     
+    [tapGestureRecognizer release];
+    
+    //  Set the itemIdentifier of the itemView
+    itemView.itemIdentifier = count;
+    
     return itemView;
 }
 
-- (void)itemViewTapped:(UITapGestureRecognizer *)gr{
+- (ItemView *)selectRequiredItemFromAvailableItems{
     
-    [self.delegate didSelectAnItem:(ItemView *)gr.view];
+    //  Return a random itemView from the availableItems array
+    return (ItemView *)[self.availableItems objectAtIndex:[self generateRandomNumber]];
+}
+
+- (void)itemViewTapped:(UITapGestureRecognizer *)gestureRecognizer{
+    
+    //  Event when an item is tapped by the user
+    [self.delegate didSelectAnItem:(ItemView *)gestureRecognizer.view];
+}
+
+- (NSInteger)generateRandomNumber{
+
+    NSInteger randomIndex = arc4random_uniform((uint32_t)MAX_NUMBER_OF_ITEMS);
+    
+    return randomIndex;
 }
 
 -(void)dealloc{
+    
+    self.itemFrames = nil;
+    self.requiredItem = nil;
+    self.availableItems = nil;
 
-    [_itemsSelection release];
-    _itemsSelection = nil;
-    
-    [_availableItems release];
-    _availableItems = nil;
-    
     [super dealloc];
 }
 
