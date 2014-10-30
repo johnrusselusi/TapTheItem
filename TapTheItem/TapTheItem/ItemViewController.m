@@ -19,8 +19,8 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 @interface ItemViewController () <UIGestureRecognizerDelegate>
 
 @property (retain, nonatomic) NSMutableArray *availableItems;
-@property (retain, nonatomic) NSMutableArray *itemNames;
 @property (retain, nonatomic) NSArray *itemFrames;
+@property (retain, nonatomic) NSMutableArray *itemNames;
 
 @end
 
@@ -63,9 +63,7 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 - (void)reloadNewItems{
     
-    
-    //  Get the file names of the images stored in images.json
-    self.itemNames = [[[NSMutableArray alloc]initWithArray:[self getDataFromJSONFile:IMAGES_JSON]] autorelease];
+    self.itemNames = [NSMutableArray arrayWithArray:[self getDataFromJSONFile:IMAGES_JSON]];
     
     //  Store random generated items into availableItems array
     for (int itemCounter = 0; itemCounter < MAX_NUMBER_OF_ITEMS; itemCounter++) {
@@ -155,8 +153,7 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
     self.itemFrames = nil;
     self.requiredItem = nil;
     self.availableItems = nil;
-    self.itemNames = nil;
-    
+
     [super dealloc];
 }
 
