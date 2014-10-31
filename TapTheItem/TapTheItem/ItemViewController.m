@@ -113,7 +113,9 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
     [self.itemNames removeObjectAtIndex:randomIndex];
     
     //  Create an itemView instance with frames from the itemFrames array
-    ItemView *itemView = [[[ItemView alloc]initWithFrame:CGRectFromString([self.itemFrames objectAtIndex:count])] autorelease];
+    NSString *frameRect = [NSString stringWithString:[self.itemFrames objectAtIndex:count]];
+    
+    ItemView *itemView = [[[ItemView alloc]initWithFrame:CGRectFromString(frameRect)] autorelease];
     
     itemView.image = image;
     

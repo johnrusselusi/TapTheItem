@@ -139,10 +139,13 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
         [self writeNewHighScore:self.highScore];
     }
     
+    NSString *scoreFormat = [NSString stringWithFormat:@"Score :%ld\nHigh Score :%ld",
+                             (long)self.player.playerScore,
+                             (long)self.highScore];
+    
     //  Alerview to notify the player that the game is over
     UIAlertView *gameOverAlert = [[UIAlertView alloc]initWithTitle:ALERTVIEW_TITLE
-                                                           message:[NSString stringWithFormat:@"Score :%ld\nHigh Score :%ld", (long)self.player.playerScore,
-                                                                    (long)self.highScore]
+                                                           message:scoreFormat
                                                           delegate:self
                                                  cancelButtonTitle:nil
                                                  otherButtonTitles:TRY_AGAIN_BUTTON_TITLE,RETURN_TO_MAIN_MENU_BUTTON_TITLE,nil];
