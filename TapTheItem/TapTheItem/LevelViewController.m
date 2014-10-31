@@ -38,7 +38,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 #pragma mark - View Life Cycle
 
 - (void)viewDidLoad{
-
+    
     [super viewDidLoad];
     
     self.highScore = [self getCurrentHighScore];

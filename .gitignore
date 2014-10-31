@@ -1,0 +1,6 @@
+#.gitignore for TapTheItem Project
+
+.DS_Store
+
+xcuserdata
+*.xcuserstate

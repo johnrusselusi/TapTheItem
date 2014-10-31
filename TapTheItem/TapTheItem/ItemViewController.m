@@ -42,7 +42,7 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 #pragma mark - Initialize Arrays from JSON
 
 - (void)initializeArrays{
-
+    
     self.availableItems = [[[NSMutableArray alloc]init] autorelease];
     self.itemFrames = [[[NSArray alloc]initWithArray:[self getDataFromFileNamed:FRAMES_JSON
                                                                        fileType:JSON_FILE_TYPE]] autorelease];
@@ -55,6 +55,7 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
     NSMutableArray *JSONData = [NSJSONSerialization JSONObjectWithData:data
                                                                options:kNilOptions
                                                                  error:nil];
+    
     
     return JSONData;
 }
