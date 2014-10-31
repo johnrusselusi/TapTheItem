@@ -13,6 +13,7 @@ NSInteger const MAX_NUMBER_OF_ITEMS = 9;
 
 NSString *const IMAGES_JSON = @"items";
 NSString *const FRAMES_JSON = @"frames";
+NSString *const JSON_FILE_TYPE = @"json";
 
 CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
@@ -42,15 +43,14 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 - (void)initializeArrays{
 
-    //  Initialize arrays for the availableItems and itemFrames array
     self.availableItems = [[[NSMutableArray alloc]init] autorelease];
-    self.itemFrames = [[[NSArray alloc]initWithArray:[self getDataFromJSONFile:FRAMES_JSON]] autorelease];
+    self.itemFrames = [[[NSArray alloc]initWithArray:[self getDataFromFileNamed:FRAMES_JSON
+                                                                       fileType:JSON_FILE_TYPE]] autorelease];
 }
 
-- (NSArray *)getDataFromJSONFile:(NSString *)JSONFileName{
+- (NSArray *)getDataFromFileNamed:(NSString *)fileName fileType:(NSString *)fileType{
     
-    //  Method for accessing data from a JSON file
-    NSString *filepath = [[NSBundle mainBundle]pathForResource:JSONFileName ofType:@"json"];
+    NSString *filepath = [[NSBundle mainBundle]pathForResource:fileName ofType:fileType];
     NSData *data = [NSData dataWithContentsOfFile:filepath];
     NSMutableArray *JSONData = [NSJSONSerialization JSONObjectWithData:data
                                                                options:kNilOptions
@@ -63,7 +63,8 @@ CGRect const REQUIRED_ITEMVIEW_FRAME = {20, 115, 90, 90};
 
 - (void)reloadNewItems{
     
-    self.itemNames = [NSMutableArray arrayWithArray:[self getDataFromJSONFile:IMAGES_JSON]];
+    self.itemNames = [NSMutableArray arrayWithArray:[self getDataFromFileNamed:IMAGES_JSON
+                                                                      fileType:JSON_FILE_TYPE]];
     
     //  Store random generated items into availableItems array
     for (int itemCounter = 0; itemCounter < MAX_NUMBER_OF_ITEMS; itemCounter++) {

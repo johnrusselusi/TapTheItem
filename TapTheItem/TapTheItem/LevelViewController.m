@@ -38,7 +38,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
 
     [super viewDidLoad];
     
-    [self readCurrentHighScore];
+    self.highScore = [self getCurrentHighScore];
     
     self.player = [[[PlayerModel alloc]init] autorelease];
     
@@ -87,7 +87,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
         //  Stop the timer and update score
         [self.levelTimer invalidate];
         self.player.playerScore += self.player.numberOfAttemptsLeft;
-        self.player.numberOfAttemptsLeft = 3;
+        self.player.numberOfAttemptsLeft = STARTING_NUMBER_OF_ATTEMPTS;
         
         self.levelView.playerScoreLabel.text = [NSString stringWithFormat:@"%ld",
                                                 (long)self.player.playerScore];
@@ -104,7 +104,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
         if (self.player.numberOfAttemptsLeft > 0) {
             
             //  Decrease the number of chances left of the player
-            self.player.numberOfAttemptsLeft -= 1;
+            self.player.numberOfAttemptsLeft--;
             self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%ld",
                                                              (long)self.player.numberOfAttemptsLeft];
         } else {
@@ -181,11 +181,11 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     return filePath;
 }
 
-- (void)readCurrentHighScore{
+- (NSInteger)getCurrentHighScore{
     
     //  Method for reading the stored highscore
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:[self filePath]];
-    self.highScore = [[dictionary valueForKey:HIGHSCORE_KEY] intValue];
+    return [[dictionary valueForKey:HIGHSCORE_KEY] integerValue];
 }
 
 - (void)writeNewHighScore:(NSInteger)score{
