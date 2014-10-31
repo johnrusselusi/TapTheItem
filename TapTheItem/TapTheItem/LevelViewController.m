@@ -15,6 +15,9 @@
 NSInteger const STARTING_TIME = 5;
 NSInteger const STARTING_NUMBER_OF_ATTEMPTS = 3;
 NSInteger const STARTING_PLAYER_SCORE = 0;
+NSInteger const FIRST_INDEX = 0;
+
+float const TIMER_INTERVAL = 1.0;
 
 NSString *const JSON_PATH = @"score.json";
 NSString *const HIGHSCORE_KEY = @"highScore";
@@ -72,7 +75,7 @@ NSString *const RETURN_TO_MAIN_MENU_BUTTON_TITLE = @"Main Menu";
     self.levelView.numberOfAttemptsLeftLabel.text = [NSString stringWithFormat:@"%ld",
                                                      (long)self.player.numberOfAttemptsLeft];
     
-    self.levelTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+    self.levelTimer = [NSTimer scheduledTimerWithTimeInterval:TIMER_INTERVAL
                                                        target:self
                                                      selector:@selector(updateTimer:)
                                                      userInfo:nil
@@ -176,7 +179,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                          NSUserDomainMask,
                                                          YES);
-    NSString *filePath = [paths objectAtIndex:0];
+    NSString *filePath = [paths objectAtIndex:FIRST_INDEX];
     filePath = [filePath stringByAppendingPathComponent:JSON_PATH];
     return filePath;
 }
@@ -191,10 +194,10 @@ clickedButtonAtIndex:(NSInteger)buttonIndex{
 - (void)writeNewHighScore:(NSInteger)score{
     
     //  Method for storing a new highscore
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInteger:score]
+    NSMutableDictionary *scoreDictionary = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithInteger:score]
                                                                          forKey:HIGHSCORE_KEY];
     
-    [[NSString stringWithFormat:@"%@",dictionary] writeToFile:[self filePath]
+    [[NSString stringWithFormat:@"%@", scoreDictionary] writeToFile:[self filePath]
                                                    atomically:YES
                                                      encoding:NSUTF8StringEncoding
                                                         error:nil];
