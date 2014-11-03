@@ -13,7 +13,6 @@
 @interface MainViewController ()
 
 @property (retain, nonatomic) IBOutlet UILabel *highScore;
-@property (retain, nonatomic) LevelViewController *levelViewController;
 
 @end
 
@@ -21,9 +20,9 @@
 
 - (IBAction)startButtonPressed:(id)sender {
     
-    self.levelViewController = [[[LevelViewController alloc]init] autorelease];
+    LevelViewController *levelViewController = [[[LevelViewController alloc]init] autorelease];
     
-    [self.navigationController pushViewController:self.levelViewController animated:NO];
+    [self.navigationController pushViewController:levelViewController animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -35,7 +34,6 @@
 
 - (void)dealloc {
     
-    self.levelViewController = nil;
     self.highScore = nil;
     
     [super dealloc];
