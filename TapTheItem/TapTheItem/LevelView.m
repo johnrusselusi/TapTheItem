@@ -10,10 +10,11 @@
 
 CGRect const SCORE_LABEL_FRAME = {20, 236, 80, 21};
 CGRect const LIFE_LABEL_FRAME = {20, 265, 80, 21};
-CGRect const TIME_LABEL_FRAME = {20, 63, 83, 21};
+CGRect const TIME_LABEL_FRAME = {20, 63, 120, 21};
+
 CGRect const PLAYER_SCORE_LABEL_FRAME = {100, 236, 114, 21};
 CGRect const ATTEMPTS_LEFT_LABEL_FRAME = {100, 265, 131, 21};
-CGRect const TIME_LEFT_LABEL_FRAME = {111, 63, 10, 21};
+CGRect const TIME_LEFT_LABEL_FRAME = {125, 63, 20, 21};
 
 NSString *const TIME_LABEL_TEXT = @"Time Left :";
 NSString *const SCORE_LABEL_TEXT = @"Score :";
@@ -42,6 +43,9 @@ NSString *const LIFE_LABEL_TEXT = @"Chance :";
         timeLabel.text = TIME_LABEL_TEXT;
         scoreLabel.text = SCORE_LABEL_TEXT;
         lifeLabel.text = LIFE_LABEL_TEXT;
+        
+        self.timeLeftLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:20.0];
+        timeLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:20.0];
         
         [self addSubview:timeLabel];
         [self addSubview:scoreLabel];

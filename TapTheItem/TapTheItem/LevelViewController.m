@@ -13,7 +13,7 @@
 #import "PlayerModel.h"
 #import "HighScoreManager.h"
 
-NSInteger const STARTING_TIME = 5;
+NSInteger const STARTING_TIME = 3;
 NSInteger const STARTING_NUMBER_OF_ATTEMPTS = 3;
 NSInteger const STARTING_PLAYER_SCORE = 0;
 
