@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "LevelViewController.h"
+#import "HighScoreManager.h"
 
 @interface MainViewController ()
 
@@ -29,7 +30,7 @@
 
     [super viewWillAppear:animated];
     
-    self.highScore.text = [NSString stringWithFormat:@"%ld", (long)self.levelViewController.highScore];
+    self.highScore.text = [NSString stringWithFormat:@"%ld", (long)[HighScoreManager getCurrentHighScore]];
 }
 
 - (void)dealloc {

@@ -29,6 +29,7 @@
 		19AB639819FE2C91008CE2FE /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19AB639619FE2C91008CE2FE /* MainViewController.m */; };
 		19AB639919FE2C91008CE2FE /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19AB639719FE2C91008CE2FE /* MainViewController.xib */; };
 		19AB639B19FE3618008CE2FE /* frames.json in Resources */ = {isa = PBXBuildFile; fileRef = 19AB639A19FE3618008CE2FE /* frames.json */; };
+		19B015721A07330600DC9EA0 /* HighScoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 19B015711A07330600DC9EA0 /* HighScoreManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,8 @@
 		19AB639619FE2C91008CE2FE /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		19AB639719FE2C91008CE2FE /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		19AB639A19FE3618008CE2FE /* frames.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = frames.json; sourceTree = "<group>"; };
+		19B015701A07330600DC9EA0 /* HighScoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScoreManager.h; sourceTree = "<group>"; };
+		19B015711A07330600DC9EA0 /* HighScoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoreManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +149,8 @@
 				19A54E7619F9FB84007F8D24 /* LevelView.m */,
 				19A54E7819F9FCFA007F8D24 /* LevelViewController.h */,
 				19A54E7919F9FCFA007F8D24 /* LevelViewController.m */,
+				19B015701A07330600DC9EA0 /* HighScoreManager.h */,
+				19B015711A07330600DC9EA0 /* HighScoreManager.m */,
 				19A54E6F19F9E036007F8D24 /* PlayerModel.h */,
 				19A54E7019F9E036007F8D24 /* PlayerModel.m */,
 				1928132C19F7A10100704CA9 /* Images.xcassets */,
@@ -289,6 +294,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				19AB639819FE2C91008CE2FE /* MainViewController.m in Sources */,
+				19B015721A07330600DC9EA0 /* HighScoreManager.m in Sources */,
 				19A54E7119F9E036007F8D24 /* PlayerModel.m in Sources */,
 				1928134B19F7A24200704CA9 /* ItemView.m in Sources */,
 				19A54E7A19F9FCFA007F8D24 /* LevelViewController.m in Sources */,
